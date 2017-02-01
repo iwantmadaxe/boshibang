@@ -31,7 +31,6 @@
 	import RegisterForeignOnly from './register-foreign-only.vue';
 	import RegisterChineseForeignCooperative from './register-chinese-foreign-cooperative.vue';
 	import RegisterSinoForeignJointVenture from './register-sino-foreign-joint-venture.vue';
-	import { getScreenHeight } from '../../utils/fixtools.js';
 	import { loginStatus } from '../../vuex/getters.js';    // 全局参数
 	import { Navbar, TabItem, TabContainer, TabContainerItem } from 'mint-ui';
 
@@ -46,11 +45,6 @@
 			getters: {
 				loginStatus
 			}
-		},
-		ready () {
-			// 修正高度
-			let height = getScreenHeight();
-			document.querySelector('.mint-tab-container').style.height = ((height - 64) + 'px');
 		},
 		components: {
 			[Navbar.name]: Navbar,

@@ -19,7 +19,6 @@
 <script>
 	import RegisterG from './register-g.vue';
 	import RegisterK from './register-k.vue';
-	import { getScreenHeight } from '../../utils/fixtools.js';
 	import { loginStatus } from '../../vuex/getters.js';    // 全局参数
 	import { Navbar, TabItem, TabContainer, TabContainerItem } from 'mint-ui';
 	import { readLocal } from '../../utils/localstorage.js';
@@ -50,11 +49,6 @@
 				}
 				transition.next();
 			}
-		},
-		ready () {
-			// 修正高度
-			let height = getScreenHeight();
-			document.querySelector('.mint-tab-container').style.height = ((height - 64) + 'px');
 		},
 		components: {
 			[Navbar.name]: Navbar,
