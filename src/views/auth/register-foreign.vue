@@ -1,6 +1,6 @@
 <template>
 	<div class="register-foreign bg-gray">
-		<div class="register-foreign-banner">
+		<div class="register-foreign-banner register-banner">
 
 		</div>
 		<mt-navbar class="page-part" :selected.sync="selected">
@@ -9,7 +9,7 @@
 			<mt-tab-item id="chinese-foreign-cooperative">中外合作</mt-tab-item>
 			<mt-tab-item id="sino-foreign-joint-venture">中外合资</mt-tab-item>
 		</mt-navbar>
-		<mt-tab-container :active.sync="selected" swipeable>
+		<mt-tab-container :active.sync="selected" swipeable style="margin-top: 0.12rem;">
 			<mt-tab-container-item id="foreign-stand">
 				<boss-foreign-stand></boss-foreign-stand>		
 			</mt-tab-container-item>
@@ -66,13 +66,95 @@
 </script>
 
 <style lang="scss">
+	.mint-navbar .mint-tab-item.is-selected {
+	    border-bottom: 0;
+	    color: inherit;
+	    margin-bottom: 0;
+	    position: relative;
+	}
+	.mint-navbar .mint-tab-item.is-selected:after {
+       	margin: auto;
+	    height: 3px;
+	    position: absolute;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    background: #c91425;
+	    width: 70%;
+	    content: "";
+	}
+	.register-tab-con {
+		padding-bottom: 0.2rem;
+	    background: #fff;
+	}
 	.register-foreign {
 	}
 	.register-foreign-banner {
 		background-image: url("../../assets/images/reg/register-foreign-banner.png");
 		background-size: 100% 100%;
 		background-color: #38546f;
-		height: 7.5rem;
-		width: 100%;
+	}
+	.register-tab-text {
+		background: #fff;
+		padding: 0 5%;
+	}
+	.register-tab-text .reg-title {
+		font-size: 0.15rem;
+		color: #000;
+		text-align: left;
+		padding: 10px 0;
+		border-bottom: 1px solid #e6e6e6;
+	}
+	.register-tab-text .reg-context-con {
+		font-size: 0.12rem;
+		text-align: left;
+		line-height: 0.24rem;
+	    padding: 0.1rem 0;
+	}
+	.register-tab-text .reg-context-con .title {
+		color: #333;
+	}
+	.register-tab-text .reg-context-con .context {
+		font-size: 0.12rem;
+		color: #969696;
+		text-align: left;
+	}
+	.reg-progess-con {
+		
+	}
+	.reg-progess-con .title{
+		font-size: 0.14rem;
+		color: #000;
+	}
+	.reg-progess-con .reg-progess-row{
+		height: 0.24rem;
+		margin: 0.05rem 0;
+	}
+	.reg-progess-con .reg-progess-row .choose-square{
+		width: 33%;
+		height: 0.24rem;
+		line-height: 0.24rem;
+	}
+	.choose-square .icon{
+		display: block;
+		float: left;
+		width: 0.12rem;
+	    margin-right: 0.05rem;
+    	margin-top: 0.06rem;
+	}
+	.choose-square span{
+		font-size: 0.12rem;
+		color: #969696;
+		display: block;
+		float: left;
+		height: 0.24rem;
+    	line-height: 0.24rem;
+	}
+	.reg-progess-con {
+		padding: 0.1rem 5%;
+		background: #faf8f8;
+	}
+	.reg-progess-con .reg-progess-row {
+		padding: 0.05rem 0;
 	}
 </style>

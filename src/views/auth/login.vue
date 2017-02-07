@@ -1,26 +1,28 @@
 <template>
-	<div class="login">
-		<div class="login-field">
-			<mt-field placeholder="请输入用户名" :attr="{ maxlength: 11 }" :value.sync="account"></mt-field>
-			<mt-field placeholder="请输入密码" :type="typeName" :value.sync="password">
-			</mt-field>
-		</div>
-		<div class="login-helper">
-			<a class="registery" v-link="{name: 'Register'}">免费注册</a>
-			<div class="cf"></div>
-		</div>
-		<div class="login-button">
-			<mt-button size="large" type="primary" @click="login">登录</mt-button>
-		</div>
-		<div class="wechant-login-con">
-			<div class="fl wechant-login-line">
+	<div class="login-con">
+		<div class="login">
+			<div class="login-field">
+				<mt-field placeholder="请输入用户名" :attr="{ maxlength: 11 }" :value.sync="account"></mt-field>
+				<mt-field placeholder="请输入密码" :type="typeName" :value.sync="password">
+				</mt-field>
 			</div>
-			<span  class="fl wechant-login-text">使用微信登录</span>
-			<div class="fl wechant-login-line">
+			<div class="login-helper">
+				<a class="registery" v-link="{name: 'Register'}">免费注册</a>
+				<div class="cf"></div>
 			</div>
-		</div>
-		<div class="login-bg">
-			<img class="wechat-login-icon" src="../../assets/images/login/wechat-icon.png" />
+			<div class="login-button">
+				<mt-button size="large" type="primary" @click="login">登录</mt-button>
+			</div>
+			<div class="wechant-login-con">
+				<div class="fl wechant-login-line">
+				</div>
+				<span  class="fl wechant-login-text">使用微信登录</span>
+				<div class="fl wechant-login-line">
+				</div>
+			</div>
+			<div class="login-bg">
+				<img class="wechat-login-icon" src="../../assets/images/login/wechat-icon.png" />
+			</div>
 		</div>
 		<img class="bottom-bg" src="../../assets/images/login/login-bg.png" />
 	</div>
@@ -135,26 +137,38 @@
 		opacity: 0;
 	}
 	.login-field {
-		margin-top: 1.5rem;
+		margin-top: 0.4rem;
 	}
 	.login-bg {
 		width: 100%;
 		height: auto;
 		position: relative;
 	}
+	.login-con {
+		display: -webkit-box;
+	    display: -ms-flexbox;
+	    display: flex;
+	    -webkit-box-orient: vertical;
+	    -webkit-box-direction: normal;
+	    -ms-flex-flow: column;
+	    flex-flow: column;
+	    height: 100%;
+	    min-height: 100vh;
+	    overflow: hidden;
+	}
 	.login {
-		position: relative;
-		height: 100%;
-		overflow: hidden;
+	    -webkit-box-flex: 1;
+	    -ms-flex: 1;
+	    flex: 1;
 	}
 	.bottom-bg {
 		width: 100%;
-		margin-top: -30px;
+		display: block;
 	}
 	.wechat-login-icon {
-		width: 30px;
-		height: 30px;
-		top: 0.25rem;
+		width: 0.4rem;
+		height: 0.4rem;
+		top: 0.15rem;
 		left: 0;
 		right: 0;
 		margin-left: auto;
@@ -164,24 +178,25 @@
 	    position: absolute;
 	}
 	.wechant-login-con {
-		width: 90%;
-		height: 30px;
-		margin: 0.5rem auto 0;
+	    width: 90%;
+		height: 0.3rem;
+		margin: 0.1rem auto 0;
 	}
 	.wechant-login-con .wechant-login-line{
-		width: 33%;
-		height: 1px;
-		margin: 14px 0 0;
-		background: #d4d3d3;
+	    width: 33%;
+	    height: 0.01rem;
+	    margin: 0.14rem 0 0;
+	    background: #d4d3d3;
 	}
 	.wechant-login-con .wechant-login-text{
-		font-size: 0.75rem;
-		color: #b4b4b4;
-		width: 33%;
-		margin-top: 0.4rem;
+        font-size: 0.14rem;
+	    color: #b4b4b4;
+	    width: 33%;
+	    margin-top: 0.06rem;
+	    letter-spacing: 0.01rem;
 	}
 	.login .login-helper{
-		margin: 1rem 15px 0;
+		margin: 0.2rem 0.15rem 0;
 		color: #5c98cc;
 		font-size: 14px;
 	}
@@ -189,8 +204,8 @@
 	    float: right;
 	    cursor: pointer;
 	    color: #c91425;
-	    border-bottom: 1px solid #c91425;
-	    padding: 0.2rem 0;
+	    border-bottom: 0.01rem solid #c91425;
+	    padding: 0.02rem 0;
 	    display: block;
 	    margin-right: 5%;
 	}
@@ -198,18 +213,18 @@
 		clear: both;
 	}
 	.login .login-button{
-		margin: 2rem auto 0;
+		margin: 0.35rem auto 0;
     	width: 80%;
 	}
 	.login .login-button .mint-button {
-	    border-radius: 20px;
+	    border-radius: 0.2rem;
 	    font-weight: 600;
-	    font-size: 1.25rem;
+	    font-size: 0.2rem;
 	    background-color: #c91425;
 	}
 	.login .mint-switch{
 		position: relative;
-		height: 48px;
+		height: 0.48rem;
 	}
 	.login .mint-cell:before{
     	left: 0px;
@@ -219,15 +234,15 @@
 		margin: 0 auto;
 	}
 	.login-field .mint-cell-wrapper{
-	    margin: 1rem auto 0;
-		height: 2.5rem;
-		line-height: 2.5rem;
+	    margin: 0.2rem auto 0;
+		height: 0.42rem;
+		line-height: 0.42rem;
 		background-color: #f2f2f7;
 	}
 	.login-field .mint-field-core {
 		background-color: #f2f2f7;
-		height: 2.5rem;
-		line-height: 2.5rem;
+		height: 0.42rem;
+		line-height: 0.42rem;
 		padding: 0 5%;
 	}
 	.login-field .mint-cell::after{

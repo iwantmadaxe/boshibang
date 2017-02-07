@@ -1,7 +1,7 @@
 <template>
 	<div class="register-oversea bg-gray">
-		<div class="register-oversea-banner">
-
+		<div class="register-oversea-banner register-banner">
+			Overseas registered
 		</div>
 		<div class="register-oversea-square">
 			<div class="title cl-fx">
@@ -102,19 +102,19 @@
 <style lang="scss">
 	@import '../../assets/sass/partials/_border.scss';
 	.register  .page-part {
-	    margin-bottom: 0.9375rem;
+	    margin-bottom: 0.12rem;
 	}
 	.register .mint-navbar .mint-tab-item:nth-child(2n+1){
 		@include border-right(#d9d9d9);
 	}
 	.register .mint-navbar .mint-tab-item .mint-tab-item-label{
-		font-size: 0.9375rem;
+		font-size: 0.14rem;
 	}
 	.rad {
 		border-radius: 50%;
 	}
 	.register-oversea {
-	    padding-bottom: 2rem;
+	    padding-bottom: 0.1rem;
 	}
 	.bg-gray {
 		background: #e9ecf5;
@@ -123,26 +123,32 @@
 		background-image: url("../../assets/images/reg/register-oversea-banner.png");
 		background-size: 100% 100%;
 		background-color: #38546f;
-		height: 7.5rem;
+	}
+	.register-banner {
+		height: 1.2rem;
 		width: 100%;
+	    color: #fff;
+		font-size: 0.16rem;
+		line-height: 1.2rem;
+		text-align: center;
 	}
 	.register-oversea-square {
 	    width: 100%;
-	    margin: 0 auto 1.25rem;
+	    margin: 0 auto 0.1rem;
 	    height: auto;
 	    background: #fff;
 	    padding: 0 4%;
 	}
 	.register-oversea-square .icon-con {
-	    margin: 1.25rem 4% 1.25rem 0;
-	    width: 3.75rem;
-	    height: 3.75rem;
-	    overflow: hidden;
-	    border-radius: 50%;
-	    float: left;
+        margin: 0.1rem 4% 0.1rem 0;
+		width: 0.5rem;
+		height: 0.5rem;
+		overflow: hidden;
+		border-radius: 50%;
+		float: left;
 	}
 	.register-oversea-square .title {
-		border-bottom: 0.0625rem solid #e6e6e6;
+		border-bottom: 0.01rem solid #e6e6e6;
 	    width: 100%;
 	}
 	.register-oversea-square .icon-con .icon {
@@ -150,20 +156,20 @@
 	    background: #dd1f2b;
 	}
 	.register-oversea-square .title .text {
-		font-size: 1rem;
+		font-size: 0.15rem;
 	    color: #000;
 	    display: block;
-	    height: 2rem;
-	    line-height: 2rem;
-	    margin: 2rem 0;
+	    height: 0.5rem;
+	    line-height: 0.5rem;
+	    margin: 0.1rem 0;
 	    float: left;
 	    width: auto;
 	}
 	.register-oversea-square .context {
-		font-size: 0.75rem;
+		font-size: 0.12rem;
 	    color: #969696;
-	    padding: 0.5rem 0;
+	    padding: 0.1rem 0;
 	    text-align: left;
-	    line-height: 1.5rem;
+	    line-height: 0.24rem;
 	}
 </style>

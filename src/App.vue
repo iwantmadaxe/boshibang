@@ -17,6 +17,7 @@ export default {
 <style lang="scss">
 @import 'assets/sass/partials/_normalize.scss';
 @import 'assets/sass/partials/_base.scss';
+@import 'assets/sass/common/main.css';
 
 html {
   height: 100%;
@@ -25,7 +26,7 @@ html {
 #wrapper {
   color: #666;
   width: 100%;
-  font-family: Source Sans Pro, Helvetica, sans-serif;
+  font-family: Microsoft YaHei, Source Sans Pro, Helvetica, sans-serif;
   text-align: center;
 }
 
