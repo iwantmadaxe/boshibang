@@ -9,6 +9,8 @@ import Demond from './views/demond/demond.vue';    // 开发商详情
 import Register from './views/auth/register.vue';    // 注册页面
 import RegisterOverSea from './views/auth/register-oversea.vue';    // 海外注册页面
 import RegisterForeign from './views/auth/register-foreign.vue';    // 外资注册页面
+import RegisterDomestic from './views/auth/register-domestic.vue';    // 内资注册页面
+import RegisterFta from './views/auth/register-fta.vue';    // 自贸区注册页面
 import Recruit from './views/recruit/recruit.vue';
 import Supplier from './views/supplier/supplier.vue';
 import MyBid from './views/supplier/my-bid/my-bid.vue';
@@ -56,6 +58,16 @@ const route = {
 		component: RegisterForeign,
 		name: 'RegisterForeign',
 		title: '外资注册'
+	},
+	'/register-domestic': {
+		component: RegisterDomestic,
+		name: 'RegisterDomestic',
+		title: '内资注册'
+	},
+	'/register-fta': {
+		component: RegisterFta,
+		name: 'RegisterFta',
+		title: '自贸区注册'
 	},
 	'/forget': {
 		component: Forget,

@@ -1,7 +1,7 @@
 <template>
-	<div class="register-tab-con clearfix">
-		<div class="register-tab-text clearfix">
-			<div class="reg-title">
+	<div class="register-tab-con cl-fx">
+		<div class="register-tab-text cl-fx">
+			<div class="reg-title one-line">
 				实地注册、按照费用纳税<br>
 				中国境内联络使用<br>
 			</div>
@@ -17,32 +17,30 @@
 			</div>
 			
 		</div>
-		<div class="reg-progess-con clearfix">
+		<div class="reg-progess-con cl-fx">
 			<p class="title">外资注册流程</p>
-			<div class="reg-progess-row clearfix">
-				<div class="choose-square fl clearfix">
+			<div class="reg-progess-row cl-fx">
+				<div class="choose-square fl cl-fx">
 					<img class="icon" src="../../assets/images/reg/choose.png" />
 					<span>查名</span>
 				</div>
-				<div class="choose-square fl clearfix">
+				<div class="choose-square fl cl-fx">
 					<img class="icon" src="../../assets/images/reg/choose.png" />
 					<span>批准证书</span>
 				</div>
-				<div class="choose-square fl clearfix">
+				<div class="choose-square fl cl-fx">
 					<img class="icon" src="../../assets/images/reg/choose.png" />
 					<span>三证办理</span>
 				</div>
-			</div>
-			<div class="reg-progess-row clearfix">
-				<div class="choose-square fl clearfix">
+				<div class="choose-square fl cl-fx">
 					<img class="icon" src="../../assets/images/reg/choose.png" />
 					<span>外汇登记</span>
 				</div>
-				<div class="choose-square fl clearfix">
+				<div class="choose-square fl cl-fx">
 					<img class="icon" src="../../assets/images/reg/choose.png" />
 					<span>开基本户</span>
 				</div>
-				<div class="choose-square fl clearfix">
+				<div class="choose-square fl cl-fx">
 					<img class="icon" src="../../assets/images/reg/choose.png" />
 					<span>两证申请</span>
 				</div>

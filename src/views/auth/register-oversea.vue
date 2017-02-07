@@ -1,9 +1,10 @@
 <template>
-	<div class="register-oversea bg-gray">
+	<div class="register-oversea bg-gray register-pb">
 		<div class="register-oversea-banner register-banner">
-			Overseas registered
+			<img class="banner-img" src="../../assets/images/reg/register-oversea-banner.png" />
+			<span class="banner-text">Overseas registered</span>
 		</div>
-		<div class="register-oversea-square">
+		<div class="register-common-square">
 			<div class="title cl-fx">
 				<div class="icon-con">
 					<img class="icon rad" src="../../assets/images/reg/oversea-title1.png" />
@@ -21,7 +22,7 @@
 				无需缴纳营业税、增值税等；<br>
 			</div>
 		</div>
-		<div class="register-oversea-square">
+		<div class="register-common-square">
 			<div class="title cl-fx">
 				<div class="icon-con">
 					<img class="icon rad" src="../../assets/images/reg/oversea-title2.png" />
@@ -38,7 +39,7 @@
 				可以做亚马逊；<br>
 			</div>
 		</div>
-		<div class="register-oversea-square">
+		<div class="register-common-square">
 			<div class="title cl-fx">
 				<div class="icon-con">
 					<img class="icon rad" src="../../assets/images/reg/oversea-title3.png" />
@@ -54,7 +55,7 @@
 				公司在BVI境外的投资所得全部免税，且资金进出没有管制<br>
 			</div>
 		</div>
-		<div class="register-oversea-square">
+		<div class="register-common-square">
 			<div class="title cl-fx">
 				<div class="icon-con">
 					<img class="icon rad" src="../../assets/images/reg/oversea-title4.png" />
@@ -71,7 +72,7 @@
 				政治、经济和贸易环境稳定。<br>
 			</div>
 		</div>
-		<div class="register-oversea-square">
+		<div class="register-common-square">
 			<div class="title cl-fx">
 				<div class="icon-con">
 					<img class="icon rad" src="../../assets/images/reg/oversea-title5.png" />
@@ -113,7 +114,7 @@
 	.rad {
 		border-radius: 50%;
 	}
-	.register-oversea {
+	.register-pb {
 	    padding-bottom: 0.1rem;
 	}
 	.bg-gray {
@@ -125,21 +126,38 @@
 		background-color: #38546f;
 	}
 	.register-banner {
-		height: 1.2rem;
+		height: auto;
 		width: 100%;
 	    color: #fff;
 		font-size: 0.16rem;
-		line-height: 1.2rem;
 		text-align: center;
+		position: relative;
 	}
-	.register-oversea-square {
+	.register-banner .banner-img {
+		width: 100%;
+	    display: block;
+	}
+	.register-banner .banner-text {
+	    position: absolute;
+	    top: 0;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    margin: auto;
+	    display: block;
+	    width: 100%;
+	    height: 0.16rem;
+	    text-align: center;
+	    line-height: 0.16rem;
+	}
+	.register-common-square {
 	    width: 100%;
 	    margin: 0 auto 0.1rem;
 	    height: auto;
 	    background: #fff;
 	    padding: 0 4%;
 	}
-	.register-oversea-square .icon-con {
+	.register-common-square .icon-con {
         margin: 0.1rem 4% 0.1rem 0;
 		width: 0.5rem;
 		height: 0.5rem;
@@ -147,15 +165,15 @@
 		border-radius: 50%;
 		float: left;
 	}
-	.register-oversea-square .title {
+	.register-common-square .title {
 		border-bottom: 0.01rem solid #e6e6e6;
 	    width: 100%;
 	}
-	.register-oversea-square .icon-con .icon {
+	.register-common-square .icon-con .icon {
 		width: 100%;
 	    background: #dd1f2b;
 	}
-	.register-oversea-square .title .text {
+	.register-common-square .title .text {
 		font-size: 0.15rem;
 	    color: #000;
 	    display: block;
@@ -165,7 +183,7 @@
 	    float: left;
 	    width: auto;
 	}
-	.register-oversea-square .context {
+	.register-common-square .context {
 		font-size: 0.12rem;
 	    color: #969696;
 	    padding: 0.1rem 0;

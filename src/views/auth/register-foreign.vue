@@ -1,7 +1,7 @@
 <template>
 	<div class="register-foreign bg-gray">
 		<div class="register-foreign-banner register-banner">
-
+			<img class="banner-img" src="../../assets/images/reg/register-foreign-banner.png" />
 		</div>
 		<mt-navbar class="page-part" :selected.sync="selected">
 			<mt-tab-item id="foreign-stand">外资代表处</mt-tab-item>
@@ -31,7 +31,6 @@
 	import RegisterForeignOnly from './register-foreign-only.vue';
 	import RegisterChineseForeignCooperative from './register-chinese-foreign-cooperative.vue';
 	import RegisterSinoForeignJointVenture from './register-sino-foreign-joint-venture.vue';
-	import { getScreenHeight } from '../../utils/fixtools.js';
 	import { loginStatus } from '../../vuex/getters.js';    // 全局参数
 	import { Navbar, TabItem, TabContainer, TabContainerItem } from 'mint-ui';
 
@@ -47,11 +46,6 @@
 				loginStatus
 			}
 		},
-		ready () {
-			// 修正高度
-			let height = getScreenHeight();
-			document.querySelector('.mint-tab-container').style.height = ((height - 64) + 'px');
-		},
 		components: {
 			[Navbar.name]: Navbar,
 			[TabItem.name]: TabItem,
@@ -66,6 +60,9 @@
 </script>
 
 <style lang="scss">
+	.mint-navbar .mint-tab-item {
+		padding: 12px 0;
+	}
 	.mint-navbar .mint-tab-item.is-selected {
 	    border-bottom: 0;
 	    color: inherit;
@@ -89,11 +86,6 @@
 	}
 	.register-foreign {
 	}
-	.register-foreign-banner {
-		background-image: url("../../assets/images/reg/register-foreign-banner.png");
-		background-size: 100% 100%;
-		background-color: #38546f;
-	}
 	.register-tab-text {
 		background: #fff;
 		padding: 0 5%;
@@ -103,13 +95,16 @@
 		color: #000;
 		text-align: left;
 		padding: 10px 0;
-		border-bottom: 1px solid #e6e6e6;
+	}
+	.register-tab-text .reg-title p {
+		margin-bottom: 0.1rem;
 	}
 	.register-tab-text .reg-context-con {
 		font-size: 0.12rem;
 		text-align: left;
 		line-height: 0.24rem;
 	    padding: 0.1rem 0;
+		border-top: 1px solid #e6e6e6;
 	}
 	.register-tab-text .reg-context-con .title {
 		color: #333;
@@ -125,10 +120,12 @@
 	.reg-progess-con .title{
 		font-size: 0.14rem;
 		color: #000;
+		text-align: left;
 	}
 	.reg-progess-con .reg-progess-row{
-		height: 0.24rem;
+		height: auto;
 		margin: 0.05rem 0;
+		padding: 0.05rem 0;
 	}
 	.reg-progess-con .reg-progess-row .choose-square{
 		width: 33%;
@@ -153,8 +150,5 @@
 	.reg-progess-con {
 		padding: 0.1rem 5%;
 		background: #faf8f8;
-	}
-	.reg-progess-con .reg-progess-row {
-		padding: 0.05rem 0;
 	}
 </style>
