@@ -1,7 +1,7 @@
 <template>
 	<div class="register input-field-con">
 		<div class="heading">
-			<img src="../../assets/images/login/logo.jpg" alt="logo" class="heading-img">
+			<img src="../../assets/images/logo/logo.png" alt="logo" class="heading-img">
 		</div>
 		<div class="content">
 			<mt-field placeholder="请输入手机号" type="text" v-model="phone"></mt-field>
@@ -122,7 +122,7 @@
 						message: '注册成功！',
 						iconClass: 'mintui mintui-success'
 					});
-					_this.$router.push({name: 'OrderCreate'});
+					// _this.$router.push({name: 'Index'});
 				})
 				.catch((error) => {
 					apis.errors(error.response, _this);
