@@ -15,23 +15,23 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'assets/sass/partials/_normalize.scss';
-@import 'assets/sass/partials/_base.scss';
-@import 'assets/sass/common/main.css';
+@import 'assets/sass/base/normalize.scss';
+@import 'assets/sass/base/mobile.scss';
+@import 'assets/sass/base/base.scss';
+@import 'assets/fonts/iconfont.css';
 
 html {
   height: 100%;
 }
 
+body{
+	background-color: #f0f2f5;
+}
+
 #wrapper {
   color: #666;
   width: 100%;
-  font-family: Microsoft YaHei, Source Sans Pro, Helvetica, sans-serif;
+  font-family: Source Sans Pro, Helvetica, sans-serif;
   text-align: center;
-}
-
-#wrapper a {
-  // color: #666;
-  // text-decoration: none;
 }
 </style>

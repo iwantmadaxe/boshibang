@@ -1,172 +1,227 @@
 <template>
 	<div class="k-area-picker">
-		<mt-popup :visible.sync="visible" position="bottom" class="mint-area" :lock-scroll="true">
-			<mt-picker :slots="addressSlots" @change="onAddressChange" :visible-item-count="5" v-ref:picker show-toolbar>
-				<span class="mint-area-action mint-area-cancel" @click="visible = false">{{ cancelText }}</span>
-				<span class="mint-area-action mint-area-confirm" @click="confirm">{{ confirmText }}</span>
-			</mt-picker>
+		<mt-popup
+		v-model="currentVisible"
+		position="bottom"
+		class="k-area"
+		:lock-scroll="true">
+			<div class="k-area-heading">
+				<div class="area-heading-detail">
+					<span class="k-area-title">所在地区</span>
+					<span class="k-area-title-icon" @click="close"><i class="iconfont icon-close"></i></span>
+				</div>
+				
+				<mt-navbar class="page-part" v-model="selected">
+					<mt-tab-item id="1">
+						<span class="area-select-content">{{ province ? province.name : '待选择' }}</span>
+					</mt-tab-item>
+					<mt-tab-item id="2">
+						<span class="area-select-content" v-show="province">{{ city ? city.name : '待选择' }}</span>
+					</mt-tab-item>
+					<mt-tab-item id="3">
+						<span class="area-select-content" v-show="city">{{ district ? district.name : '待选择' }}</span>
+					</mt-tab-item>
+				</mt-navbar>
+			</div>
+			<div class="k-area-content">
+				<mt-tab-container v-model="selected">
+					<mt-tab-container-item id="1">
+						<div
+						class="province-info"
+						v-for="area1Item in area1"
+						@click="getRegion(province.code, 2)">
+							<input type="radio" class="area-radio" v-model="province" :value="area1Item">
+							<span class="area-name">{{area1Item.name}}</span>
+							<span class="area-choose"><i class="icon-choose mintui mintui-success"></i></span>
+						</div>
+					</mt-tab-container-item>
+
+					<mt-tab-container-item id="2" v-show="province">
+						<div
+						class="province-info"
+						v-for="area2Item in area2"
+						@click="getRegion(city.code, 3)">
+							<input type="radio" class="area-radio" v-model="city" :value="area2Item">
+							<span class="area-name">{{area2Item.name}}</span>
+							<span class="area-choose"><i class="icon-choose mintui mintui-success"></i></span>
+						</div>
+					</mt-tab-container-item>
+
+					<mt-tab-container-item id="3" v-show="city">
+						<div
+						class="province-info"
+						v-for="area3Item in area3"
+						@click="confirmChoose">
+							<input type="radio" class="area-radio" v-model="district" :value="area3Item">
+							<span class="area-name">{{area3Item.name}}</span>
+							<span class="area-choose"><i class="icon-choose mintui mintui-success"></i></span>
+						</div>
+					</mt-tab-container-item>
+				</mt-tab-container>
+			</div>
 		</mt-popup>
 	</div>
 </template>
 <script>
-	import { Picker, Popup, MessageBox } from 'mint-ui';
+	import { Popup, Navbar, TabItem, TabContainer, TabContainerItem } from 'mint-ui';
 	import { readLocal, saveLocal } from '../../utils/localstorage.js';
-	import apis from '../../api';
+	import apis from '../../apis/index.js';
+	import axios from 'axios';
 
 	export default {
 		name: 'k-area-picker',
 		data () {
 			return {
-				addressSlots: [
-					{
-						flex: 1,
-						values: ['请选择'],
-						className: 'slot1',
-						textAlign: 'center'
-					}, {
-						divider: true,
-						content: '-',
-						className: 'slot2'
-					}, {
-						flex: 1,
-						values: ['请选择'],
-						className: 'slot3',
-						textAlign: 'center'
-					}
-				],
-				currentValue: {
-					addressProvince: '',
-					addressCity: ''
-				},
-				area1: [{
-					id: 0,
-					name: '请选择'
-				}],
-				area2: [{
-					id: 0,
-					name: '请选择'
-				}]
+				selected: '1',
+				province: null,
+				city: null,
+				district: null,
+				area1: [],
+				area2: [],
+				area3: []
 			};
 		},
 		props: {
-			visible: {
-				type: Boolean,
+			value: {
 				default: false
-			},
-			cancelText: {
-				type: String,
-				default: '取消'
-			},
-			confirmText: {
-				type: String,
-				default: '确定'
 			}
 		},
 		computed: {
-			areaTop () {
-				if (typeof this.area1 === 'object' && this.area1 instanceof Array) {
-					let tpl = this.area1.map(function (item) {
-						return item.name;
-					});
-
-					return tpl;
-				} else {
-					return [];
-				}
-			},
-			areaButtom () {
-				if (typeof this.area2 === 'object' && this.area2 instanceof Array) {
-					let tpl = this.area2.map(function (item) {
-						return item.name;
-					});
-
-					return tpl;
-				} else {
-					return [];
+			currentVisible: {
+				get () {
+					return this.value;
+				},
+				set (val) {
+					this.$emit('input', val);
+					this.$emit('on-change', val);
 				}
 			}
 		},
-		methods: {
-			onAddressChange (picker, values) {
-				// 获取1级地址对应的数值
-				let tplProvince = this.getAddressRelation(this.area1, values[0]);
-				if (tplProvince) {
-					// 判断是否有缓存，有限读取缓存
-					if (readLocal(`addressList:${tplProvince.id}`) !== false) {
-						this.area2 = readLocal(`addressList:${tplProvince.id}`);
-						picker.setSlotValues(1, this.areaButtom);
-					} else {
-						this.$http.get(apis.urls.address, {params: {id: tplProvince.id}}).then((response) => {
-							this.area2 = apis.pures.pureAddressList(response.body).items;
-							// 将每层地址写入缓存
-							saveLocal(`addressList:${tplProvince.id}`, this.area2);
-							picker.setSlotValues(1, this.areaButtom);
-						}, (response) => {
-							MessageBox.alert('暂无该项数据！', '提示');
-						});
-					}
-				}
-				this.currentValue.addressProvince = this.getAddressRelation(this.area1, values[0]);
-				this.currentValue.addressCity = this.getAddressRelation(this.area2, values[1]);
-			},
-			confirm () {
-				this.visible = false;
-				this.$emit('confirm', this.currentValue);
-			},
-			getAddressRelation (range, val) {
-				for (let rItem of range) {
-					if (rItem.name === val) {
-						return rItem;
-					}
-				}
-				return false;
-			}
-		},
-		compiled () {
+		created () {
 			// 判断是否有缓存，有限读取缓存
 			if (readLocal('addressList') !== false) {
 				this.area1 = readLocal('addressList');
-				this.$refs.picker.setSlotValues(0, this.areaTop);
 			} else {
-				this.$http.get(apis.urls.address, {params: {id: 0}}).then((response) => {
-					this.area1 = apis.pures.pureAddressList(response.body).items;
+				axios.get(apis.urls.region + '/province')
+				.then((response) => {
+					this.area1 = apis.pures.pureAddressList(response.data.data).items;
 					// 将每层地址写入缓存
 					saveLocal('addressList', this.area1);
-					this.$refs.picker.setSlotValues(0, this.areaTop);
-				}, (response) => {});
+				});
+			}
+		},
+		methods: {
+			getRegion (code, level) {
+				// 清空选项
+				this.district = null;
+				this[`area${level}`] = [];
+				if (level === 2) {
+					this.city = null;
+				}
+				// 判断是否有缓存，有限读取缓存
+				if (readLocal('addressList:' + code) !== false) {
+					this[`area${level}`] = readLocal('addressList:' + code);
+				} else {
+					axios.get(apis.urls.region + '/' + code)
+					.then((response) => {
+						this[`area${level}`] = apis.pures.pureAddressList(response.data.data).items;
+						// 将每层地址写入缓存
+						saveLocal('addressList:' + code, this[`area${level}`]);
+					});
+				}
+				// 切换tab
+				this.selected = level.toString();
+			},
+			confirmChoose () {
+				let params = {
+					province: this.province,
+					city: this.city,
+					district: this.district
+				};
+				this.$emit('choose-area', params);
+				this.currentVisible = false;
+			},
+			close () {
+				this.currentVisible = false;
 			}
 		},
 		components: {
-			[Picker.name]: Picker,
-			[Popup.name]: Popup
+			[Popup.name]: Popup,
+			[Navbar.name]: Navbar,
+			[TabItem.name]: TabItem,
+			[TabContainer.name]: TabContainer,
+			[TabContainerItem.name]: TabContainerItem
 		}
 	};
 </script>
 <style lang="scss">
 	@import '../../assets/sass/partials/_var.scss';
-	.k-area-picker{
-		.mint-area{
+	@import '../../assets/sass/partials/_border.scss';
+
+	.k-area-picker .k-area{
+		width: 100%;
+		height: 420px;
+	}
+	.k-area-picker .area-heading-detail{
+		position: relative;
+		padding-top: 15px;
+		color: #666;
+		font-size: 15px;
+	}
+	.k-area-picker .k-area-title-icon{
+		position: absolute;
+		top: 15px;
+		right: 10px;
+	}
+	/* 选择条 */
+	.k-area-heading {
+		@include border-bottom($border-color);
+	}
+	.k-area-heading .mint-navbar .mint-tab-item.is-selected{
+		border-bottom: 0;
+		margin-bottom: 0;
+	}
+	.k-area-heading .mint-navbar .mint-tab-item{
+		padding: 17px 0 3px;
+	}
+	.k-area-heading .area-select-content{
+		font-size: 13px;
+	}
+	.k-area-heading .is-selected .area-select-content{
+		border-bottom: 2px solid #26a2ff;
+		margin-bottom: -2px;
+		font-size: 13px;
+	}
+	.k-area-picker .k-area-content{
+		max-height: 342px;
+		overflow-y: scroll;
+		text-align: left;
+	}
+	.k-area-content .province-info{
+		padding: 15px 10px;
+		font-size: 13px;
+		position: relative;
+		.area-radio{
+			position: absolute;
 			width: 100%;
-			.picker-slot-wrapper,
-			.picker-item {
-				backface-visibility: hidden;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: 1;
+			opacity: 0;
+			&~.area-choose{
+				opacity: 0;
+				transition: all 0.3s ease-in;
+				.icon-choose{
+					font-size: 13px;
+				}
 			}
-			.picker-toolbar {
-				border-bottom: solid 1px #eaeaea;
+			&:checked~.area-choose{
+				color: red;
+				opacity: 1;
 			}
-			.mint-area-action{
-				display: inline-block;
-				width: 50%;
-				text-align: center;
-				line-height: 40px;
-				font-size: 16px;
-				color: $color-blue;
-			}
-			.mint-area-cancel{
-				float: left;
-			}
-			.mint-area-confirm{
-				float: right;
+			&:checked+.area-name{
+				color: red;
 			}
 		}
 	}

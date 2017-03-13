@@ -3,7 +3,9 @@
 */
 // 手机号验证
 export const phone = function (num) {
-	num = num.trim();
+	if (typeof num === 'string') {
+		num = num.trim();
+	}
 	if (/^1[34578][0-9]{9}$/.test(num)) {
 		return true;
 	}
@@ -12,7 +14,9 @@ export const phone = function (num) {
 
 // 邮箱验证
 export const email = function (str) {
-	str = str.trim();
+	if (typeof str === 'string') {
+		str = str.trim();
+	}
 	if (/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(str)) {
 		return true;
 	}
@@ -21,7 +25,7 @@ export const email = function (str) {
 
 // 必填验证
 export const requiredMe = function (str) {
-	if (typeof str === 'string' || typeof str === 'number') {
+	if (typeof str === 'string') {
 		str = str.trim();
 	}
 	if (str === null || str === undefined || str === '') {
@@ -32,8 +36,15 @@ export const requiredMe = function (str) {
 
 // 验证数量
 export const limitLength = function (str, max, min) {
-	str = str.trim().toString();
-	let num = str.length;
+	let num = 0;
+	if (typeof str === 'string') {
+		str = str.trim();
+		num = str.length;
+	} else if (typeof str === 'number') {
+		num = str;
+	} else {
+		num = str.toString().length;
+	}
 	max = Number(max);
 	min = Number(min);
 	if (isNaN(max) || max === null || max === undefined || max === '') {

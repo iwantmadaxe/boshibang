@@ -1,12 +1,18 @@
 <template>
 	<div class="box-section cl-fx block-center-v">
-		<div :class="['box-pic', boxPic]">
+		<div
+		class="box-pic"
+		:style="{width: `${width*10}%`}"
+		v-if="width">
 			<slot name="img"></slot>
 		</div>
-		<div :class="['box-content', 'cl-fx', boxContent]">
-			<h3 class="box-head" v-text="headTitle"></h3>
-			<p class="box-sub" v-text="subTitle"></p>
-			<slot name="more">
+		<div
+		class="box-content cl-fx"
+		:style="{width: `${(10-width)*10}%`}"
+		v-if="10-width">
+			<h3 v-if="headTitle" class="box-head" v-text="headTitle"></h3>
+			<p v-if="subTitle" class="box-sub" v-text="subTitle"></p>
+			<slot name="more"></slot>
 		</div>
 		<slot></slot>
 	</div>
@@ -14,7 +20,7 @@
 
 <script>
 	export default {
-		name: 'box-section',
+		name: 'k-box-section',
 		props: {
 			headTitle: {
 				default: ''
@@ -22,11 +28,8 @@
 			subTitle: {
 				default: ''
 			},
-			boxPic: {
-				default: ''
-			},
-			boxContent: {
-				default: ''
+			width: {
+				default: 3
 			}
 		}
 	};
@@ -35,17 +38,14 @@
 <style lang="scss">
 	@import '../../assets/sass/partials/_var.scss';
 	.box-pic{
-		width: 30%;
 		display: inline-block;
 		float: left;
-		padding-right: 5px;
+		padding-right: 10px;
 	}
 	.box-content{
-		width: 70%;
 		display: inline-block;
 		float: right;
 		text-align: left;
-		padding-left: 5px;
 	}
 	.box-content .box-head{
 		font-size: 1.1rem;

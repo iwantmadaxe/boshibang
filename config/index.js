@@ -6,7 +6,7 @@ module.exports = {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'mobile',
+    assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
@@ -14,18 +14,24 @@ module.exports = {
     // Before setting to `true`, make sure to:
     // npm install --save-dev compression-webpack-plugin
     productionGzip: false,
-    productionGzipExtensions: ['js', 'css']
+    productionGzipExtensions: ['js', 'css'],
+    // Run the build command with an extra argument to
+    // View the bundle analyzer report after build finishes:
+    // `npm run build --report`
+    // Set to `true` or `false` to always turn it on or off
+    bundleAnalyzerReport: process.env.npm_config_report
   },
   dev: {
     env: require('./dev.env'),
     port: 8080,
+    autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/api/v1': {
-            target: 'http://www.zhu-ku.com', // target host
+        '/api': {
+            target: 'http://odin-location.dev', // target host
             changeOrigin: true               // needed for virtual hosted sites
-        }             
+        }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

@@ -60,9 +60,9 @@ export function getFileUrl (sourceId) {
 	return url;
 };
 
-// 将'/n/b'转义为'<br>'
+// 将'\r\n,\r,\n'转义为'<br>'
 export function line2br (text) {
-	return text.replace(/\r?\n/g, '<br>');
+	return text.replace(/\r|\n|\r\n/g, '<br>');
 };
 
 // 判断手机是否是微信

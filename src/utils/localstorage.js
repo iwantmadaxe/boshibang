@@ -12,7 +12,7 @@ const saveLocal = function (head, data, exp) {
 	}
 	expirationTime = expirationTime * 1000;
 	let res = {};
-	let tplHead = 'zecoMb:' + head;
+	let tplHead = 'odinProMb:' + head;
 	res.data = data;
 	res.expiration = +new Date() + expirationTime;
 	window.localStorage.setItem(tplHead, JSON.stringify(res));
@@ -21,7 +21,7 @@ const saveLocal = function (head, data, exp) {
 
 // 读取数据
 const readLocal = function (head) {
-	let tplHead = 'zecoMb:' + head;
+	let tplHead = 'odinProMb:' + head;
 	let data = '';
 	if (!window.localStorage) return false;    // localStorage不支持则不使用
 	data = window.localStorage.getItem(tplHead);
@@ -36,7 +36,7 @@ const readLocal = function (head) {
 
 // 清除指定数据
 const clearLocal = function (head) {
-	let tplHead = 'zecoMb:' + head;
+	let tplHead = 'odinProMb:' + head;
 	if (!window.localStorage) return false;    // localStorage不支持则不使用
 	window.localStorage.removeItem(tplHead);
 	return true;

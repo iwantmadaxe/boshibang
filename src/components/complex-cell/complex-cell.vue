@@ -8,7 +8,7 @@
 </template>
 <script>
 	export default {
-		name: 'x-complex-cell',
+		name: 'k-complex-cell',
 		props: {
 			title: ''
 		}
@@ -28,6 +28,7 @@
 		@include border-bottom($border-color);
 	}
 	.complex-cell .complex-cell-content{
+		word-break: break-word;
 		line-height: 1.5;
 		padding: 16px 0;
 		font-size: 0.9rem;
