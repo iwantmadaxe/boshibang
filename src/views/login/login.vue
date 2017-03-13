@@ -14,6 +14,10 @@
 		<div class="btn-register">
 			<mt-button size="large" type="primary" @click="login">登陆</mt-button>
 		</div>
+		<div class="cl-fx login-operate">
+			<span @click="goLogin" class="fl">注册账号</span>
+			<span @click="goForget" class="fr">忘记密码</span>
+		</div>
 	</div>
 </template>
 
@@ -152,6 +156,12 @@
 				} else {
 					return null;
 				}
+			},
+			goLogin () {
+				this.$router.push({name: 'Register'});
+			},
+			goForget () {
+				this.$router.push({name: 'Forget'});
 			}
 		},
 		components: {
@@ -161,4 +171,8 @@
 	};
 </script>
 <style>
+.login .login-operate {
+	width: 90%;
+	margin:  0 auto;
+}
 </style>
