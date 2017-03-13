@@ -6,8 +6,8 @@ if (process.env.NODE_ENV === 'production') {
 	};
 } else {
 	port = {
-		// route: 'http://localhost:8080/',
-		route: 'http://bosshelper.odinsoft.com.cn/',
+		route: 'http://localhost:8080/',
+		// route: 'http://bosshelper.odinsoft.com.cn/',
 		version: 'api/v1/'
 	};
 }

@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api': {
-            target: 'http://odin-location.dev', // target host
+            target: 'http://bosshelper.odinsoft.com.cn', // target host
             changeOrigin: true               // needed for virtual hosted sites
         }
     },

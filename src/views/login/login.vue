@@ -23,6 +23,9 @@
 	import apis from '../../apis/index.js';
 	import axios from 'axios';
 	import downTime from '../../utils/downTime.js';
+	import { saveLocal } from '../../utils/localstorage.js';
+	import { loginStatus } from '../../vuex/getters.js';    // 全局参数
+	import { goLogin } from '../../vuex/actions.js';    // 登录函数
 
 	export default {
 		name: 'boss-login',
@@ -44,6 +47,14 @@
 			let hasAuth = this.getCookie('has_auth');
 			if (hasAuth) {
 				this.$router.push({name: 'OrderCreate'});
+			}
+		},
+		vuex: {
+			getters: {
+				loginStatus
+			},
+			actions: {
+				goLogin
 			}
 		},
 		methods: {
@@ -122,10 +133,15 @@
 						message: '登录成功！',
 						iconClass: 'mintui mintui-success'
 					});
-					_this.$router.push({name: 'OrderCreate'});
+					// 储存信息
+					let loginTpl = apis.pures.pureLogin(response.data.data);
+					saveLocal('user', loginTpl);
+					// _this.goLogin(loginData);
+					// _this.$router.push({name: 'Index'});
 				})
 				.catch((error) => {
 					apis.errors(error.response, _this);
+					apis.errorLogin(error.response, _this);
 				});
 			},
 			getCookie (name) {
