@@ -72,3 +72,10 @@
 .fr {
 	float: right;
 }
+.rad {
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-khtml-border-radius: 50%;
+	border-radius: 50%;
+    overflow: hidden;
+}

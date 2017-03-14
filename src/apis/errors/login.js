@@ -7,19 +7,19 @@ const errorLogin = function (response, _this) {
 	// 处理具体错误
 	// 格式错误提示
 	if (response.status === 422) {
-		if (response.body.errors.hasOwnProperty('phone')) {
-			MessageBox.alert(response.body.errors.phone[0], '提示');
+		if (response.data.errors.hasOwnProperty('phone')) {
+			MessageBox.alert(response.data.errors.phone[0], '提示');
 			return false;
 		}
-		if (response.body.errors.hasOwnProperty('password')) {
-			MessageBox.alert(response.body.errors.password[0], '提示');
+		if (response.data.errors.hasOwnProperty('password')) {
+			MessageBox.alert(response.data.errors.password[0], '提示');
 			return false;
 		}
 		MessageBox.alert('帐号密码不匹配', '提示');
 		return false;
 	}
 	// 普通错误提示
-	// MessageBox.alert(response.body.message, '提示');
+	MessageBox.alert(response.data.message, '提示');
 	return false;
 };
 

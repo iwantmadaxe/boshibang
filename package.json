@@ -15,12 +15,14 @@
   "dependencies": {
     "axios": "^0.15.3",
     "mint-ui": "^2.1.1",
+    "object-assign": "^4.1.1",
     "vue": "^2.1.10",
     "vue-router": "^2.2.0",
     "vuex": "^2.1.2",
     "weixin-js-sdk": "^1.2.0"
   },
   "devDependencies": {
+    "array-from": "^2.1.1",
     "autoprefixer": "^6.7.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
@@ -62,9 +64,13 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "0.0.26",
     "karma-webpack": "^2.0.2",
+    "less": "^2.7.2",
+    "less-loader": "^3.0.0",
     "lolex": "^1.5.2",
     "mocha": "^3.2.0",
     "nightwatch": "^0.9.12",
+    "node-sass": "^4.5.0",
+    "object-assign": "^4.1.1",
     "opn": "^4.0.2",
     "ora": "^1.1.0",
     "phantomjs-prebuilt": "^2.1.14",

@@ -2,8 +2,9 @@
 * 倒计时计时器
 */
 const downTime = function (time, obj) {
+	let timeInterval;
 	if (time) {
-		let timeInterval = setInterval(function () {
+		timeInterval = setInterval(function () {
 			if (time > 0) {
 				time--;
 				obj.time = time;
@@ -12,5 +13,11 @@ const downTime = function (time, obj) {
 			}
 		}, 1000);
 	}
+	return timeInterval;
 };
-export default downTime;
+
+const dropTime = function (time) {
+	clearInterval(time);
+};
+
+export { downTime, dropTime };

@@ -24,7 +24,7 @@
 	import { Tabbar, TabItem } from 'mint-ui';
 
 	export default {
-		name: 'odin-bottom-pannel',
+		name: 'boss-bottom-pannel',
 		props: {
 			tabSelected: {
 				default: 'home'
@@ -47,20 +47,20 @@
 		},
 		methods: {
 			goPath (place) {
-				// 跳转<订单创建>
+				// 跳转<>
 				if (place === 'home') {
-					this.$router.push({name: 'OrderCreate'});
+					// this.$router.push({name: ''});
 					return false;
 				}
-				// 跳转<订单列表>
+				// 跳转<>
 				if (place === 'enroll') {
-					this.$router.push({name: 'OrderList'});
+					// this.$router.push({name: ''});
 					return false;
 				}
 
-				// 跳转<我的>
+				// 跳转<>
 				if (place === 'mine') {
-					this.$router.push({name: 'Mine'});
+					// this.$router.push({name: ''});
 					return false;
 				}
 
@@ -70,8 +70,13 @@
 	};
 </script>
 
-<style scoped>
-	.bottom-bar-pannel{
-		height: 55px;
+<style scoped lang="scss">
+	@import '../../assets/sass/partials/_var.scss';
+
+	/* .bottom-bar-pannel{
+		height: 0.55rem;
+	} */
+	.bottom-bar-pannel .mint-tabbar > .mint-tab-item.is-selected {
+	    color: #ca1728;
 	}
 </style>

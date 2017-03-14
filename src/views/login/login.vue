@@ -26,7 +26,6 @@
 	import { requiredMe, phone } from '../../utils/valids.js';
 	import apis from '../../apis/index.js';
 	import axios from 'axios';
-	import downTime from '../../utils/downTime.js';
 	import { saveLocal } from '../../utils/localstorage.js';
 	import { loginStatus } from '../../vuex/getters.js';    // 全局参数
 	import { goLogin } from '../../vuex/actions.js';    // 登录函数
@@ -84,8 +83,6 @@
 						message: '发送成功！',
 						iconClass: 'mintui mintui-success'
 					});
-					// 开启倒计时
-					downTime(100, _this.downTime);
 					_this.valid = {msg: '', ok: true};
 					return false;
 				}, (response) => {
@@ -144,8 +141,7 @@
 					// _this.$router.push({name: 'Index'});
 				})
 				.catch((error) => {
-					apis.errors(error.response, _this);
-					apis.errorLogin(error.response, _this);
+					apis.errors.errorLogin(error.response, _this);
 				});
 			},
 			getCookie (name) {
@@ -170,9 +166,11 @@
 		}
 	};
 </script>
-<style>
-.login .login-operate {
-	width: 90%;
-	margin:  0 auto;
-}
+<style lang="scss">
+	@import '../../assets/sass/partials/_var.scss';
+	
+	.login .login-operate {
+		width: 90%;
+		margin:  0 auto;
+	}
 </style>

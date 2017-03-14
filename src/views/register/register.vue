@@ -5,11 +5,11 @@
 		</div>
 		<div class="content">
 			<mt-field placeholder="请输入手机号" type="text" v-model="phone"></mt-field>
-			<mt-field placeholder="请输入密码" type="tel" v-model="pass"></mt-field>
 			<mt-field placeholder="请输入验证码" type="text" v-model="code">
 				<mt-button type="primary" v-if="downTime.time" disabled>重新发送({{ downTime.time }})</mt-button>
 				<mt-button type="primary" @click="sendSms" v-else>发送验证码</mt-button>
 			</mt-field>
+			<mt-field placeholder="请输入密码" type="tel" v-model="pass"></mt-field>
 		</div>
 		<div class="btn-register">
 			<mt-button size="large" type="primary" @click="register">确认注册</mt-button>
@@ -22,7 +22,7 @@
 	import { requiredMe, phone } from '../../utils/valids.js';
 	import apis from '../../apis/index.js';
 	import axios from 'axios';
-	import downTime from '../../utils/downTime.js';
+	import { downTime, dropTime } from '../../utils/downTime.js';
 
 	export default {
 		name: 'boss-register',
@@ -63,17 +63,18 @@
 					MessageBox.alert('手机号格式错误！', '提示');
 					return false;
 				}
+				// 开启倒计时
+				let setTime = downTime(120, _this.downTime);
 				// 发送验证码
 				axios.get(apis.urls.sms, {params: {phone: _this.phone, type: 'register'}}).then((response) => {
 					Toast({
 						message: '发送成功！',
 						iconClass: 'mintui mintui-success'
 					});
-					// 开启倒计时
-					downTime(100, _this.downTime);
 					_this.valid = {msg: '', ok: true};
 					return false;
 				}, (response) => {
+					dropTime(setTime);
 					apis.errors(response, _this);
 					return false;
 				});
@@ -125,7 +126,7 @@
 					// _this.$router.push({name: 'Index'});
 				})
 				.catch((error) => {
-					apis.errors(error.response, _this);
+					apis.errors.errorLogin(error.response, _this);
 				});
 			},
 			getCookie (name) {
@@ -144,7 +145,9 @@
 		}
 	};
 </script>
-<style>
+<style lang="scss">
+	@import '../../assets/sass/partials/_var.scss';
+	
 	.input-field-con {
 		min-height: 100vh;
 		background-color: #fff;
@@ -154,7 +157,7 @@
 		margin: 20px auto;
 	}
 	.input-field-con .heading{
-		min-height: 14rem;
+		min-height: 1.4rem;
 		display: flex;
 		justify-content: center;
   		align-items: center;
