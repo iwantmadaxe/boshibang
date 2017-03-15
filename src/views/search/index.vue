@@ -1,22 +1,21 @@
 <template>
-	<div class="login input-field-con">
-		<div class="heading">
-			<img src="../../assets/images/logo/logo.png" alt="logo" class="heading-img">
+	<div class="search">
+		<!-- 头部搜索 -->
+		<div class="fixedtop">
+			<search-page-top search-place="" :disabled="true">
+			</search-page-top>
 		</div>
-		<div class="content">
-			<mt-field placeholder="请输入手机号" type="text" v-model="phone"></mt-field>
-			<mt-field placeholder="请输入密码" type="tel" v-model="pass"></mt-field>
-<!-- 			<mt-field placeholder="请输入验证码" type="text" v-model="code">
-				<mt-button type="primary" v-if="downTime.time" disabled>重新发送({{ downTime.time }})</mt-button>
-				<mt-button type="primary" @click="sendSms" v-else>发送验证码</mt-button>
-			</mt-field> -->
-		</div>
-		<div class="btn-register">
-			<mt-button size="large" type="primary" @click="login">登陆</mt-button>
-		</div>
-		<div class="cl-fx login-operate">
-			<span @click="goLogin" class="fl">注册账号</span>
-			<span @click="goForget" class="fr">忘记密码</span>
+		<div class="search-con">
+			<p class="search-history">历史搜索</p>
+			<div class="search-history-list-con cl-fx">
+				<div class="search-history-row">
+					<img class="icon" src="../../assets/images/index/mag-gray.png">
+					<span class="one-line history-text">商标变更</span>
+				</div>
+			</div>
+			<div class="clear-search">
+				清除搜索记录
+			</div>
 		</div>
 	</div>
 </template>
@@ -27,11 +26,10 @@
 	import apis from '../../apis/index.js';
 	import axios from 'axios';
 	import { saveLocal } from '../../utils/localstorage.js';
-	import { loginStatus } from '../../vuex/getters.js';    // 全局参数
-	import { goLogin } from '../../vuex/actions.js';    // 登录函数
+	import SearchPageTop from '../../components/searchbar/searchPageTop.vue';
 
 	export default {
-		name: 'boss-login',
+		name: 'boss-search',
 		data () {
 			return {
 				phone: '',
@@ -45,20 +43,6 @@
 					time: 0
 				}
 			};
-		},
-		created () {
-			let hasAuth = this.getCookie('has_auth');
-			if (hasAuth) {
-				this.$router.push({name: 'Index'});
-			}
-		},
-		vuex: {
-			getters: {
-				loginStatus
-			},
-			actions: {
-				goLogin
-			}
 		},
 		methods: {
 			sendSms () {
@@ -162,15 +146,63 @@
 		},
 		components: {
 			[Field.name]: Field,
-			[Button.name]: Button
+			[Button.name]: Button,
+			SearchPageTop
 		}
 	};
 </script>
 <style lang="scss">
 	@import '../../assets/sass/partials/_var.scss';
 	
-	.login .login-operate {
-		width: 90%;
-		margin:  0 auto;
+	.search .fixedtop{
+		display: block;
+		position: fixed;
+		top: 0;
+		width: 100%;
+		max-width: 640px;
+		transform: translateY(0);
+		color: $color-white;
+		z-index: 999;
+	}
+	.search .search-con {
+		padding-top: 0.46rem;
+	}
+	.search .search-con .search-history {
+	    width: 100%;
+	    padding: 0 5%;
+	    text-align: left;
+	    margin: 0.2rem 0 0.1rem;
+	    color: $color-text;
+	    font-size: $normal-text;
+	}
+	.search .search-history-list-con {
+	    width: 100%;
+	    background: #fff;
+	}
+	.search .search-history-list-con .search-history-row {
+	    width: 94%;
+	    margin-left: 6%;
+	    border-bottom: 0.01rem solid $border-gray;
+	    height: 0.4rem;
+	    line-height: 0.4rem;
+	    font-size: $page-title;
+	}
+	.search .search-history-row .history-text {
+		color: $color-black;
+		text-align: left;
+	}
+	.search .search-history-row .icon {
+	    float: left;
+	    width: 0.12rem;
+	    margin: 0.14rem 0.1rem 0 0;
+	}
+	.search .clear-search {
+		width: 100%;
+	    text-align: center;
+	    height: 0.45rem;
+	    line-height: 0.45rem;
+	    background: #fff;
+	    font-size: $big-text;
+	    color: $cell-value-color;
 	}
 </style>

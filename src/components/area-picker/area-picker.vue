@@ -102,9 +102,9 @@
 			if (readLocal('addressList') !== false) {
 				this.area1 = readLocal('addressList');
 			} else {
-				axios.get(apis.urls.region + '/province')
+				axios.get(apis.urls.address + '/' + 1)
 				.then((response) => {
-					this.area1 = apis.pures.pureAddressList(response.data.data).items;
+					this.area1 = response.data.data;
 					// 将每层地址写入缓存
 					saveLocal('addressList', this.area1);
 				});
@@ -122,7 +122,7 @@
 				if (readLocal('addressList:' + code) !== false) {
 					this[`area${level}`] = readLocal('addressList:' + code);
 				} else {
-					axios.get(apis.urls.region + '/' + code)
+					axios.get(apis.urls.address + '/' + code)
 					.then((response) => {
 						this[`area${level}`] = apis.pures.pureAddressList(response.data.data).items;
 						// 将每层地址写入缓存

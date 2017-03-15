@@ -2,7 +2,12 @@
 $color-blue: #26a2ff;
 $color-white: #fff;
 $color-black: #000;
+$color-text: #333;
 $color-grey: #d9d9d9;
+$color-yellow: #ef8a01;
+$color-red: #c91425;
+$color-context-title: #969696;
+$color-context-active: #c91425;
 $border-color: #c8c8cd;
 $success-color: #4caf50;
 $error-color: #f44336;
@@ -49,6 +54,11 @@ $z-index-middle: 10;
 /* Search Bar Gradient Color */
 $search-bar-gradient-color: #c91523;
 
+/* Border Color */
+$border-gray: #e5e5e5;
+$button-border-gray: #dcdcdc;
+$button-border-red: #d91100;
+
 /* Special Color for Bid */
 $bid-color: #6a3906;
 $bid-background-color: #0266bb;
@@ -60,3 +70,6 @@ $connect-color: #0068b7;
 $page-title: 0.16rem;
 $square-title: 0.14rem;
 $normal-text: 0.12rem;
+$input-text: 0.12rem;
+$big-text: 0.16rem;
+$price: 0.18rem;

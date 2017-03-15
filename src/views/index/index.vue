@@ -32,8 +32,8 @@
 			<div class="service-bg cl-fx">
 				<p class="servie-title">{{categoryData.data.data.category[activeCate].name}}</p>
 				<div class="service-con cl-fx">
-					<div class="service-icon-square" v-for="item in categoryData.data.data.category[activeCate].child">
-						<img src="../../assets/images/index/icon1.png">
+					<div @click="goServiceDetail(item.id)" class="service-icon-square" v-for="item in categoryData.data.data.category[activeCate].child">
+						<img v-bind:src="item.icon">
 						<p>{{item.name}}</p>
 					</div>
 				</div>
@@ -125,7 +125,6 @@
 			} else {
 				axios.get(apis.urls.category).then((response) => {
 					_this.categoryData = response;
-					console.log(_this.categoryData.data.data.category[0].child);
 					saveLocal('serviceCategory', _this.categoryData);
 				}, (response) => {
 					apis.errors(response, _this);
@@ -134,6 +133,9 @@
 			}
 		},
 		methods: {
+			goServiceDetail (id) {
+				this.$router.push({path: 'serviceDetail/' + id + ''});
+			}
 		},
 		components: {
 			SearchBar,

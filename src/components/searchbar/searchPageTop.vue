@@ -1,33 +1,16 @@
 <template>
-	<div class="search-container">
-		<div class="user-top-nav-shadow">
-		</div>
-		<div class="user-top-nav">
-			<div class="user-info-con">
-				<div class="rad user-head">
-					<img src="../../assets/images/example/user-head.png">
-				</div>
-				<div class="user-info">
-					<div class="user-info-row">
-						<span class="username">陆金所小鹿</span>
-						<div class="level">v1
-						</div>
-					</div>
-					<div class="user-info-row">
-						<img class="star" src="../../assets/images/index/star.png">
-						<img class="star" src="../../assets/images/index/star.png">
-					</div>
-				</div>
-			</div>
-			<a class="index-search" @click="goSearchPage">
-				搜索
-			</a>
-		</div>
+	<div class="search-page-top">
+		<mt-search
+		:value.sync="value"
+  		cancel-text="取消"
+  		placeholder="搜索"></mt-search>
 	</div>
 </template>
 
 <script>
 	import { getScrollTop } from '../../utils/fixtools.js';
+	import { Search } from 'mint-ui';
+
 	export default {
 		name: 'search-bar',
 		data () {
@@ -44,6 +27,9 @@
 			searchName: {
 				default: ''
 			}
+		},
+		components: {
+			[Search.name]: Search
 		},
 		ready () {
 			// searchbar的渐变色
@@ -66,12 +52,6 @@
 			};
 		},
 		methods: {
-			goSearch (e) {
-				if (this.searchPlace && typeof this.searchPlace === 'function') {
-					this.searchPlace(e);
-				}
-				return false;
-			},
 			goSearchPage () {
 				this.$router.push({name: 'Search'});
 			}
@@ -81,12 +61,30 @@
 
 <style lang="scss">
 	@import '../../assets/sass/partials/_var.scss';
-	.search-container{
+	.search-page-top {
 		min-width: 320px;
 		max-width: 640px;
 		margin: 0 auto;
 		z-index: $z-index-middle;
 		width: 100%;
 		height: 0.46rem;
+		background: #d45968;
+		font-size: $input-text;
+	    padding: 0 4%;
+	}
+	.search-page-top .mint-searchbar {
+	    background-color: #d45968;
+	}
+	.search-page-top .mint-searchbar-cancel {
+		color: #fff;
+	}
+	.search-page-top .mint-searchbar-placeholder .mintui-search {
+		margin-right: 0.05rem;
+	}
+	.search-page-top .mint-searchbar-core {
+		margin-left: 0.05rem;
+	}
+	.search-page-top .mint-search {
+		height: 100%;
 	}
 </style>

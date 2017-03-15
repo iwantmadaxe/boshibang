@@ -53,7 +53,7 @@
 		created () {
 			let hasAuth = this.getCookie('has_auth');
 			if (hasAuth) {
-				this.$router.push({name: 'OrderCreate'});
+				this.$router.push({name: 'Index'});
 			}
 		},
 		methods: {

@@ -4,6 +4,8 @@ import Register from '../views/register/register.vue'; // 注册页面
 import Login from '../views/login/login.vue'; // 登陆页面
 import Forget from '../views/login/forget.vue'; // 忘记密码页面
 import Index from '../views/index/index.vue'; // 首页
+import ServiceDetail from '../views/service/detail.vue'; // 服务详情
+import Search from '../views/search/index.vue'; // 搜索
 import OrderCreate from '../views/order/order-create.vue'; // 创建订单页面
 import OrderList from '../views/order/order-list.vue'; // 订单列表页面
 import OrderDetail from '../views/order/order.vue'; // 订单详情页面
@@ -47,6 +49,22 @@ export default new Router({
 			component: Index,
 			meta: {
 				title: '首页'
+			}
+		},
+		{
+			path: '/serviceDetail/:service_no',
+			name: 'ServiceDetail',
+			component: ServiceDetail,
+			meta: {
+				title: '服务详情'
+			}
+		},
+		{
+			path: '/search',
+			name: 'Search',
+			component: Search,
+			meta: {
+				title: '搜索'
 			}
 		},
 		{

@@ -17,6 +17,15 @@
 	display: block;
 }
 
+// 两行文字
+.two-line {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
 // 块水平居中
 .block-center-v{
     display: flex;
