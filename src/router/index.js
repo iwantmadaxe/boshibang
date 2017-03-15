@@ -4,6 +4,7 @@ import Register from '../views/register/register.vue'; // 注册页面
 import Login from '../views/login/login.vue'; // 登陆页面
 import Forget from '../views/login/forget.vue'; // 忘记密码页面
 import Index from '../views/index/index.vue'; // 首页
+import ServiceList from '../views/service/list.vue'; // 服务列表
 import ServiceDetail from '../views/service/detail.vue'; // 服务详情
 import Search from '../views/search/index.vue'; // 搜索
 import OrderCreate from '../views/order/order-create.vue'; // 创建订单页面
@@ -49,6 +50,14 @@ export default new Router({
 			component: Index,
 			meta: {
 				title: '首页'
+			}
+		},
+		{
+			path: '/serviceList/:category_no',
+			name: 'ServiceList',
+			component: ServiceList,
+			meta: {
+				title: '服务列表'
 			}
 		},
 		{

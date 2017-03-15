@@ -148,7 +148,7 @@
 
 				if (this.serviceId) {
 					// 获取服务详情
-					axios.get(apis.urls.services + '/' + this.serviceId)
+					axios.get(apis.urls.service + '/' + this.serviceId)
 					.then((response) => {
 						this.detail = response.data.data;
 					})

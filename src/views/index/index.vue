@@ -134,7 +134,7 @@
 		},
 		methods: {
 			goServiceDetail (id) {
-				this.$router.push({path: 'serviceDetail/' + id + ''});
+				this.$router.push({name: 'ServiceList', params: {category_no: id}});
 			}
 		},
 		components: {
@@ -283,6 +283,7 @@
 	    width: 25%;
 	    float: left;
 	    padding-top: 0.1rem;
+	    padding-bottom: 0.1rem;
 	}
 	.index .service-con .service-icon-square img {
 		display: block;
