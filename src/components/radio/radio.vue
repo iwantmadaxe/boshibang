@@ -37,6 +37,9 @@
 	};
 </script>
 <style lang="scss">
+	@import '../../assets/sass/partials/_var.scss';
+	@import '../../assets/sass/partials/_border.scss';
+	
 	.k-radio{
 		.k-radio-label{
 			display: block;
@@ -60,8 +63,8 @@
 			opacity: 0;
 		}
 		.k-radio-input:checked + .k-radio-core{
-			background-color: #26a2ff;
-			border-color: #26a2ff;
+			background-color: $color-red;
+			border-color: $color-red;
 			&:after{
 				border-color: #fff;
 				transform: rotate(45deg) scale(1);

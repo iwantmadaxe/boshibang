@@ -15,8 +15,8 @@
 			<mt-button size="large" type="primary" @click="login">登陆</mt-button>
 		</div>
 		<div class="cl-fx login-operate">
-			<span @click="goLogin" class="fl">注册账号</span>
-			<span @click="goForget" class="fr">忘记密码</span>
+			<span @click="goLoginPage" class="fl">注册账号</span>
+			<span @click="goForgetPage" class="fr">忘记密码</span>
 		</div>
 	</div>
 </template>
@@ -27,8 +27,7 @@
 	import apis from '../../apis/index.js';
 	import axios from 'axios';
 	import { saveLocal } from '../../utils/localstorage.js';
-	import { loginStatus } from '../../vuex/getters.js';    // 全局参数
-	import { goLogin } from '../../vuex/actions.js';    // 登录函数
+	import { mapActions } from 'vuex';
 
 	export default {
 		name: 'boss-login',
@@ -47,20 +46,15 @@
 			};
 		},
 		created () {
-			let hasAuth = this.getCookie('has_auth');
+			let hasAuth = this.getCookie('token');
 			if (hasAuth) {
 				this.$router.push({name: 'Index'});
 			}
 		},
-		vuex: {
-			getters: {
-				loginStatus
-			},
-			actions: {
-				goLogin
-			}
-		},
 		methods: {
+			...mapActions([
+				'goLogin'
+			]),
 			sendSms () {
 				let _this = this;
 				// 数据验证
@@ -137,11 +131,12 @@
 					// 储存信息
 					let loginTpl = apis.pures.pureLogin(response.data.data);
 					saveLocal('user', loginTpl);
-					// _this.goLogin(loginData);
-					// _this.$router.push({name: 'Index'});
+					_this.goLogin(loginTpl);
+					_this.$router.push({name: 'Index'});
 				})
 				.catch((error) => {
-					apis.errors.errorLogin(error.response, _this);
+					console.log(error.status, error.response.status);
+					apis.errors.errorLogin(error, _this);
 				});
 			},
 			getCookie (name) {
@@ -153,10 +148,10 @@
 					return null;
 				}
 			},
-			goLogin () {
+			goLoginPage () {
 				this.$router.push({name: 'Register'});
 			},
-			goForget () {
+			goForgetPage () {
 				this.$router.push({name: 'Forget'});
 			}
 		},

@@ -7,6 +7,7 @@ import Index from '../views/index/index.vue'; // 首页
 import ServiceList from '../views/service/list.vue'; // 服务列表
 import ServiceDetail from '../views/service/detail.vue'; // 服务详情
 import Search from '../views/search/index.vue'; // 搜索
+import OrderConfirm from '../views/order/order-confirm.vue'; // 确认订单页面
 import OrderCreate from '../views/order/order-create.vue'; // 创建订单页面
 import OrderList from '../views/order/order-list.vue'; // 订单列表页面
 import OrderDetail from '../views/order/order.vue'; // 订单详情页面
@@ -61,7 +62,7 @@ export default new Router({
 			}
 		},
 		{
-			path: '/serviceDetail/:service_no',
+			path: '/serviceDetail/:service_id',
 			name: 'ServiceDetail',
 			component: ServiceDetail,
 			meta: {
@@ -74,6 +75,14 @@ export default new Router({
 			component: Search,
 			meta: {
 				title: '搜索'
+			}
+		},
+		{
+			path: '/order/:service_id/confirm',
+			name: 'OrderConfirm',
+			component: OrderConfirm,
+			meta: {
+				title: '确认订单'
 			}
 		},
 		{

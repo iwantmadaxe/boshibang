@@ -39,7 +39,7 @@
 						<span class="title">购买数量：</span>
 						<div class="choose-con cl-fx">
 							<div class="service-detail-number">
-								<number-choose v-bind:min="0"></number-choose>
+								<number-choose v-model:value="serviceNum" v-bind:min="0"></number-choose>
 							</div>
 						</div>
 					</div>
@@ -89,7 +89,7 @@
 			<div class="button-ask">
 				马上咨询
 			</div>
-			<div class="button-buy">
+			<div class="button-buy" @click="postOrder">
 				立即购买
 			</div>
 		</div>
@@ -101,14 +101,18 @@
 	import axios from 'axios';
 	import AreaPicker from '../../components/area-picker/area-picker.vue';
 	import NumberChoose from '../../components/number/number.vue';
-	import { Navbar, TabItem, TabContainer, TabContainerItem } from 'mint-ui';
+	import { Toast, MessageBox, Navbar, TabItem, TabContainer, TabContainerItem } from 'mint-ui';
+	import { readLocal } from '../../utils/localstorage.js';
+	import { mapActions } from 'vuex';
 
 	export default {
 		name: 'boss-service-detail',
 		data () {
 			return {
+				token: '',
 				selected: 'service-detail',
 				serviceId: '',
+				serviceNum: 0,  //  购买数量
 				detail: {
 					attributes: [
 						{
@@ -116,7 +120,6 @@
 						}
 					]
 				},
-				address: '',
 				areaVisible: false,
 				choose: {
 					province: {id: null, code: null, name: ''},
@@ -140,11 +143,16 @@
 		created () {
 			// 获取服务详情
 			this.fetchData();
+			this.token = 'bearer ' + readLocal('user').token;
+			axios.defaults.headers.common['Authorization'] = this.token;
 		},
 		methods: {
+			...mapActions([
+				'changeUserOrder'
+			]),
 			fetchData () {
 				// 获取服务id
-				this.serviceId = this.$route.params.service_no;
+				this.serviceId = this.$route.params.service_id;
 
 				if (this.serviceId) {
 					// 获取服务详情
@@ -165,10 +173,43 @@
 				}
 			},
 			chooseService (index, id) {
-				this.detail.attributes[index].defaultValue = id;
+				let selectedIds = [];  //  存放选项id
+				for (let item of this.detail.attributes) {
+					if (item.type === 1) {
+						selectedIds.push(item.defaultValue);
+					}
+				}
+				// console.log(this.detail.attributes[index].defaultValue);
+				// 根据选项查询sku接口
+				axios.get(apis.urls.service + '/' + this.serviceId + '/sku', {params: {selected_ids: selectedIds}})
+				.then((response) => {
+					this.detail.sku_id = response.data.data.id;
+					this.detail.price = response.data.data.price;
+					this.detail.attributes[index].defaultValue = id;
+				})
+				.catch((error) => {
+					apis.errors.errorPublic(error.response, this);
+				});
+			},
+			postOrder () {
+				let _this = this;
+				if (!_this.regions) {
+					MessageBox.alert('请选择服务地区！', '提示');
+					return false;
+				}
+				if (!_this.serviceNum) {
+					MessageBox.alert('购买数量不能为0！', '提示');
+					return false;
+				}
+				_this.detail.regions = _this.regions;
+				_this.detail.serviceNum = _this.serviceNum;
+				_this.changeUserOrder(_this.detail);
+				_this.$router.push({name: 'OrderConfirm', params: {service_id: _this.serviceId}});
 			}
 		},
 		components: {
+			[Toast.name]: Toast,
+			[MessageBox.name]: MessageBox,
 			[Navbar.name]: Navbar,
 			[TabItem.name]: TabItem,
 			[TabContainer.name]: TabContainer,
@@ -345,12 +386,13 @@
 	    bottom: 0;
 	    left: 0;
 	    right: 0;
-	    background: #c91425;
+	    background: $color-red;
 	    width: 70%;
 	    content: "";
 	}
 	.service-detail .nav-item-context {
 		background: $color-white;
+		padding-top: 0.15rem;
 	}
 	.service-detail .nav-item-context img {
 		width: 100%;

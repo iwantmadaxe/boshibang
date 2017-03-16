@@ -5,7 +5,7 @@
 			class="list-row"
 			tag="li"
 			v-for="item in list"
-			:to="{name: 'ServiceDetail', params: {service_no: item.id}}">
+			:to="{name: 'ServiceDetail', params: {service_id: item.id}}">
 				{{item.name}}
 			</router-link>
 		</ul>

@@ -21,7 +21,7 @@
 							<div class="address-body">
 								<i class="icon iconfont icon-location"></i>
 								<span class="address-where">
-									{{(contact.province_name+contact.city_name+contact.district_name+contact.address) || '暂无'}}
+									{{(contact.area.province.name+contact.area.city.name+contact.area.district.name+contact.address) || '暂无'}}
 								</span>
 							</div>
 						</div>
@@ -47,11 +47,13 @@
 	import apis from '../../apis';
 	import axios from 'axios';
 	import KRadio from '../../components/radio/radio.vue';
-
+	import { readLocal } from '../../utils/localstorage.js';
+	
 	export default {
 		name: 'choose-contact',
 		data () {
 			return {
+				token: '',
 				currentValue: '',
 				contactList: []
 			};
@@ -71,6 +73,8 @@
 			}
 		},
 		created () {
+			this.token = 'bearer ' + readLocal('user').token;
+			axios.defaults.headers.common['Authorization'] = this.token;
 			this.getContact();
 		},
 		methods: {

@@ -6,7 +6,7 @@
 		<mt-field label="详细地址:" type="text" placeholder="街道、楼牌号等" v-model="address"></mt-field>
 
 		<div class="btn-contact-save">
-			<mt-button size="large" type="primary" @click="save">保存</mt-button>
+			<mt-button size="large" type="primary" @click="save">确定并保存</mt-button>
 		</div>
 
 		<k-area-picker v-model="areaVisible" @choose-area="choose = arguments[0]"></k-area-picker>
@@ -18,9 +18,10 @@
 	import axios from 'axios';
 	import apis from '../../apis';
 	import { requiredMe } from '../../utils/valids.js';    // 验证
+	import { readLocal } from '../../utils/localstorage.js';
 
 	export default {
-		name: 'odin-user-contact-create',
+		name: 'boss-user-contact-create',
 		data () {
 			return {
 				areaVisible: false,
@@ -37,12 +38,16 @@
 		},
 		computed: {
 			regions () {
-				return this.choose.province.name + this.choose.city.name + this.choose.district.name;
+				if (this.choose.district.name) {
+					return this.choose.province.name + '-' + this.choose.city.name + '-' + this.choose.district.name;
+				}
 			}
 		},
 		created () {
 			// 回调地址
 			this.redirectTo = this.$route.query.redirect ? this.$route.query.redirect : '';
+			this.token = 'bearer ' + readLocal('user').token;
+			axios.defaults.headers.common['Authorization'] = this.token;
 		},
 		methods: {
 			save () {
@@ -64,12 +69,12 @@
 					return false;
 				}
 				let params = {
-					region_code: this.choose.district.code,
+					area_code: this.choose.district.code,
 					address: this.address,
 					name: this.name,
 					phone: this.phone
 				};
-				axios.post(apis.urls.contact, params)
+				axios.post(apis.urls.contact, params)  //  创建联系人
 				.then((response) => {
 					// 保存成功跳转回调地址
 					this.redirectTo ? window.location.href = this.redirectTo : '';
@@ -87,9 +92,15 @@
 		}
 	};
 </script>
-<style>
+<style lang="scss">
+	@import '../../assets/sass/partials/_var.scss';
+	@import '../../assets/sass/partials/_border.scss';
+
 	.user-contact-create .btn-contact-save{
 		width: 90%;
 		margin: 20px auto;
+	}
+	.user-contact-create .mint-button {
+		background: $color-red;
 	}
 </style>

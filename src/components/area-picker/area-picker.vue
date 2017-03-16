@@ -181,6 +181,23 @@
 		border-bottom: 0;
 		margin-bottom: 0;
 	}
+	.k-area-heading .mint-navbar .mint-tab-item.is-selected:after {
+       	margin: auto;
+	    height: 3px;
+	    position: absolute;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    background: $color-red;
+	    width: 70%;
+	    content: "";
+	}
+	.k-area-heading .mint-tab-item {
+		position: relative;
+		.mint-tab-item-label {
+			color: $color-red;
+		}
+	}
 	.k-area-heading .mint-navbar .mint-tab-item{
 		padding: 17px 0 3px;
 	}
@@ -188,7 +205,7 @@
 		font-size: 13px;
 	}
 	.k-area-heading .is-selected .area-select-content{
-		border-bottom: 2px solid #26a2ff;
+		border-bottom: 2px solid $color-red;
 		margin-bottom: -2px;
 		font-size: 13px;
 	}

@@ -23,6 +23,8 @@
 	import apis from '../../apis/index.js';
 	import axios from 'axios';
 	import { downTime, dropTime } from '../../utils/downTime.js';
+	import { saveLocal } from '../../utils/localstorage.js';
+	import { mapActions } from 'vuex';
 
 	export default {
 		name: 'boss-register',
@@ -47,6 +49,9 @@
 			}
 		},
 		methods: {
+			...mapActions([
+				'goLogin'
+			]),
 			sendSms () {
 				let _this = this;
 				// 数据验证
@@ -123,7 +128,11 @@
 						message: '注册成功！',
 						iconClass: 'mintui mintui-success'
 					});
-					// _this.$router.push({name: 'Index'});
+					// 储存信息
+					let loginTpl = apis.pures.pureLogin(response.data.data);
+					saveLocal('user', loginTpl);
+					_this.goLogin(loginTpl);
+					_this.$router.push({name: 'Index'});
 				})
 				.catch((error) => {
 					apis.errors.errorLogin(error.response, _this);

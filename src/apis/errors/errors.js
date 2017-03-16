@@ -14,7 +14,7 @@ const errors = function (error, _this) {
 			// 返回登录页面
 			try {
 				localLogout();
-				_this.$router.push({name: 'Register'});
+				_this.$router.push({name: 'Login'});
 			} catch (e) {}
 		});
 		return false;
