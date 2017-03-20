@@ -33,18 +33,6 @@
 		data () {
 			return {};
 		},
-		props: {
-			searchPlace: {
-				default: null
-			},
-			disabled: {
-				type: Boolean,
-				default: false
-			},
-			searchName: {
-				default: ''
-			}
-		},
 		ready () {
 			// searchbar的渐变色
 			let scrollTop = 0;
@@ -66,12 +54,6 @@
 			};
 		},
 		methods: {
-			goSearch (e) {
-				if (this.searchPlace && typeof this.searchPlace === 'function') {
-					this.searchPlace(e);
-				}
-				return false;
-			},
 			goSearchPage () {
 				this.$router.push({name: 'Search'});
 			}

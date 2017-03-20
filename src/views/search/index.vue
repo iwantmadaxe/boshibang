@@ -2,18 +2,34 @@
 	<div class="search">
 		<!-- 头部搜索 -->
 		<div class="fixedtop">
-			<search-page-top search-place="" :disabled="true">
+			<search-page-top :result="result" :current-value="currentValue">
+				<div slot="left-field" class="search-con">
+					<mt-search
+					v-model:current-value.sync="currentValue"
+			  		placeholder="搜索">
+			  		</mt-search>
+				</div>
+				<a slot="right-btn" @click="search" class="search-btn">
+					搜索
+				</a>
 			</search-page-top>
 		</div>
-		<div class="search-con">
+		<div class="result-con" v-show="result.length !== 0">
+			<div class="search-list-square" v-for="item in result">
+				<search-square :detail="item">
+				</search-square>
+			</div>
+		</div>
+		<div class="search-con" v-show="result.length === 0">
+			<p class="no-result">无搜索结果！</p>
 			<p class="search-history">历史搜索</p>
 			<div class="search-history-list-con cl-fx">
-				<div class="search-history-row">
+				<div @click="searchKeyword(historyItem)" class="search-history-row" v-for="historyItem in historyList">
 					<img class="icon" src="../../assets/images/index/mag-gray.png">
-					<span class="one-line history-text">商标变更</span>
+					<span class="one-line history-text">{{historyItem}}</span>
 				</div>
 			</div>
-			<div class="clear-search">
+			<div class="clear-search" @click="emptyHistory">
 				清除搜索记录
 			</div>
 		</div>
@@ -21,139 +37,77 @@
 </template>
 
 <script type="text/javascript">
-	import { Field, Button, MessageBox, Toast } from 'mint-ui';
-	import { requiredMe, phone } from '../../utils/valids.js';
+	import { Field, Button, Indicator, MessageBox, Search } from 'mint-ui';
 	import apis from '../../apis/index.js';
 	import axios from 'axios';
-	import { saveLocal } from '../../utils/localstorage.js';
+	import { saveLocal, readLocal } from '../../utils/localstorage.js';
 	import SearchPageTop from '../../components/searchbar/searchPageTop.vue';
+	import SearchSquare from '../../views/search/search-square.vue';
 
 	export default {
 		name: 'boss-search',
 		data () {
 			return {
-				phone: '',
-				pass: '',
-				code: '',
-				valid: {
-					msg: '',
-					ok: true
-				},
-				downTime: {
-					time: 0
-				}
+				result: [],
+				currentValue: '',
+				searchHistory: []
 			};
 		},
+		computed: {
+			historyList () {
+				return this.searchHistory.slice(-5);
+			}
+		},
+		created () {
+			let history = readLocal('searchHistory');
+			if (history) {
+				this.searchHistory = history;
+			}
+		},
 		methods: {
-			sendSms () {
-				let _this = this;
-				// 数据验证
-				_this.valid = {msg: '', ok: true};
-				if (!requiredMe(_this.phone)) {
-					_this.valid.msg = '手机号必填！';
-					_this.valid.ok = false;
-					MessageBox.alert('请填写手机号！', '提示');
+			search () {
+				if (this.currentValue === '') {
+					MessageBox.alert('请输入关键词！', '提示');
 					return false;
 				}
-				if (!phone(_this.phone)) {
-					_this.valid.msg = '手机号格式错误！';
-					_this.valid.ok = false;
-					MessageBox.alert('手机号格式错误！', '提示');
-					return false;
-				}
-				// 发送验证码
-				axios.get(apis.urls.sms, {params: {phone: _this.phone, type: 'login'}}).then((response) => {
-					Toast({
-						message: '发送成功！',
-						iconClass: 'mintui mintui-success'
-					});
-					_this.valid = {msg: '', ok: true};
-					return false;
-				}, (response) => {
-					apis.errors(response, _this);
-					return false;
-				});
+				this.searchHistory.push(this.currentValue);
+				saveLocal('searchHistory', this.searchHistory);
+				this.searchKeyword(this.currentValue);
 			},
-			login () {
-				let _this = this;
-				// 数据验证
-				_this.valid = {msg: '', ok: true};
-				// 验证各个所填参数必填
-				if (!requiredMe(_this.phone)) {
-					_this.valid.msg = '手机号必填！';
-					_this.valid.ok = false;
-					MessageBox.alert('请填写手机号！', '提示');
-					return false;
-				}
-				// 手机号检测
-				if (!phone(_this.phone)) {
-					_this.valid.msg = '手机号格式错误！';
-					_this.valid.ok = false;
-					MessageBox.alert('手机号格式错误！', '提示');
-					return false;
-				}
-				if (!requiredMe(_this.pass)) {
-					_this.valid.msg = '密码必填！';
-					_this.valid.ok = false;
-					MessageBox.alert('请填写密码！', '提示');
-					return false;
-				}
-				// if (!requiredMe(_this.code)) {
-				// 	_this.valid.msg = '验证码必填！';
-				// 	_this.valid.ok = false;
-				// 	MessageBox.alert('请填写验证码！', '提示');
-				// 	return false;
-				// }
-				// 发送请求
-				// 组织发送请求参数
-				let postTpl = {
-					phone: _this.phone,
-					password: _this.pass,
-					// code: _this.code,
-					auth_name: 'local'
-				};
-				axios.post(apis.urls.login, postTpl)
+			searchKeyword (keyword) {
+				Indicator.open('加载中...');
+				axios.get(apis.urls.search, {params: {keyword: keyword}})
 				.then((response) => {
-					Toast({
-						message: '登录成功！',
-						iconClass: 'mintui mintui-success'
-					});
-					// 储存信息
-					let loginTpl = apis.pures.pureLogin(response.data.data);
-					saveLocal('user', loginTpl);
-					// _this.goLogin(loginData);
-					// _this.$router.push({name: 'Index'});
+					Indicator.close();
+					if (response.data) {
+						this.result = response.data.data;
+					}
 				})
 				.catch((error) => {
-					apis.errors.errorLogin(error.response, _this);
+					Indicator.close();
+					apis.errors.errorPublic(error.response, this);
 				});
 			},
-			getCookie (name) {
-				let reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)');
-				let arr = document.cookie.match(reg);
-				if (arr) {
-					return unescape(arr[2]);
-				} else {
-					return null;
-				}
-			},
-			goLogin () {
-				this.$router.push({name: 'Register'});
-			},
-			goForget () {
-				this.$router.push({name: 'Forget'});
+			emptyHistory () {
+				this.searchHistory = [];
+				saveLocal('searchHistory', '');
 			}
 		},
 		components: {
 			[Field.name]: Field,
 			[Button.name]: Button,
-			SearchPageTop
+			[Indicator.name]: Indicator,
+			[MessageBox.nae]: MessageBox,
+			[Search.name]: Search,
+			SearchPageTop,
+			SearchSquare
 		}
 	};
 </script>
 <style lang="scss">
 	@import '../../assets/sass/partials/_var.scss';
-	
+	@import '../../assets/sass/partials/_border.scss';
+
 	.search .fixedtop{
 		display: block;
 		position: fixed;
@@ -204,5 +158,24 @@
 	    background: #fff;
 	    font-size: $big-text;
 	    color: $cell-value-color;
+	}
+	.search .result-con {
+		background: $color-white;
+		padding-top: 0.6rem;
+		.search-list-square {
+			width: 90%;
+			margin: 0 auto;
+			&:not(:last-child) {
+				@include border-bottom($border-color);
+			}
+		}
+	}
+	.search .no-result {
+	    width: 100%;
+	    padding: 0.2rem 5% 0.1rem;
+	    text-align: left;
+	    color: $color-text;
+	    font-size: $normal-text;
+	    background: $color-white;
 	}
 </style>

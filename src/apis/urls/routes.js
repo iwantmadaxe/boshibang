@@ -11,7 +11,8 @@ const apiRoutes = {
 	orders: 'orders',  //  订单列表
 	contact: 'contact',  //  联系人（增改删）
 	contacts: 'contacts',  //  联系人列表
-	contactDefault: 'contact/default'  //  默认联系人
+	contactDefault: 'contact/default',  //  默认联系人
+	search: 'service/search'  //  搜索（即服务搜索）
 };
 
 export default apiRoutes;

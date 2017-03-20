@@ -114,7 +114,7 @@
 		}
 		.order-topic {
 			width: 100%;
-			padding: 0.1rem 5%;
+			padding: 0.15rem 5% 0.1rem;
 			.order-image {
 				width: 40%;
 				display: block;
