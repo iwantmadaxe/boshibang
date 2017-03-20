@@ -10,7 +10,7 @@ const errors = function (error, _this) {
 		MessageBox.alert('系统出错了！', '提示');
 		return false;
 	} else if (error.status === 401) {
-		MessageBox.alert('请注册！', '提示').then(function () {
+		MessageBox.alert('请登录！', '提示').then(function () {
 			// 返回登录页面
 			try {
 				localLogout();

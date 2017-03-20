@@ -10,13 +10,11 @@ function pureAddressList (info) {
 		let item = {
 			id: null,
 			code: null,
-			name: '',
-			level: 1
+			name: ''
 		};
-		item.id = itemTpl.id;
+		item.id = itemTpl.code;
 		item.code = itemTpl.code;
 		item.name = itemTpl.name;
-		item.level = itemTpl.hasOwnProperty('level') ? Number(itemTpl.level) : 1;
 		return item;
 	});
 	return backInfo;

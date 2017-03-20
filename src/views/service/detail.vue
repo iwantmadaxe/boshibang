@@ -15,21 +15,29 @@
 				<div class="operate cl-fx">
 					<div v-if="item.type === 2" class="operate-row cl-fx" v-for="item in detail.attributes">
 						<span class="title">{{item.name}}：</span>
-						<div class="choose-con cl-fx"
-						readonly
-						@click="changeAreaVisible"
-						>
+						<div
+							class="choose-con cl-fx"
+							readonly
+							@click="changeAreaVisible">
 							<div class="choose-area">
-								{{regions}}
+								{{item.defaultPath.province.name}}-
+								{{item.defaultPath.city.name}}-
+								{{item.defaultPath.district.name}}
 							</div>
 						</div>
+						<k-area-picker
+						class="operate-row cl-fx"
+						v-model="areaVisible"
+						:area-choose="item.defaultPath"
+						@choose-area="chooseArea"
+						></k-area-picker>
 					</div>
 					<div v-if="item.type === 1" class="operate-row cl-fx" v-for="(item, index) in detail.attributes">
 						<span class="title">{{item.name}}：</span>
 						<div class="choose-con cl-fx">
 							<div
 							v-for="item2 in item.option"
-							@click="chooseService(index, item2.id)"
+							@click="chooseService(item, item2.id)"
 							class="choose-button"
 							:class="{'choose-button-active': item2.id === item.defaultValue}"
 							>{{item2.name}}</div>
@@ -84,7 +92,6 @@
 				</mt-tab-container>
 			</div>
 		</div>
-		<k-area-picker v-model="areaVisible" @choose-area="choose = arguments[0]"></k-area-picker>
 		<div class="fixedbottom">
 			<div class="button-ask">
 				马上咨询
@@ -120,19 +127,15 @@
 						}
 					]
 				},
-				areaVisible: false,
-				choose: {
-					province: {id: null, code: null, name: ''},
-					city: {id: null, code: null, name: ''},
-					district: {id: null, code: null, name: ''}
-				}
+				areaVisible: false
 			};
 		},
 		computed: {
-			regions () {
-				if (this.choose.district.name) {
-					return this.choose.province.name + '-' + this.choose.city.name + '-' + this.choose.district.name;
-				}
+			combineOption () {
+				return this.detail.attributes
+				.map(function (item) {
+					return item.currentValue;
+				});
 			}
 		},
 		watch: {
@@ -158,7 +161,11 @@
 					// 获取服务详情
 					axios.get(apis.urls.service + '/' + this.serviceId)
 					.then((response) => {
-						this.detail = response.data.data;
+						this.detail = apis.pures.pureService(response.data.data);
+						this.detail.status = {
+							code: '',
+							value: ''
+						};
 					})
 					.catch((error) => {
 						apis.errors.errorPublic(error.response, this);
@@ -172,37 +179,44 @@
 					this.areaVisible = true;
 				}
 			},
-			chooseService (index, id) {
-				let selectedIds = [];  //  存放选项id
-				for (let item of this.detail.attributes) {
-					if (item.type === 1) {
-						selectedIds.push(item.defaultValue);
-					}
-				}
-				// console.log(this.detail.attributes[index].defaultValue);
+			chooseService (item, id) {
+				item.currentValue = id;
 				// 根据选项查询sku接口
-				axios.get(apis.urls.service + '/' + this.serviceId + '/sku', {params: {selected_ids: selectedIds}})
+				axios.get(apis.urls.service + '/' + this.serviceId + '/sku', {params: {selected_ids: this.combineOption}})
 				.then((response) => {
 					this.detail.sku_id = response.data.data.id;
 					this.detail.price = response.data.data.price;
-					this.detail.attributes[index].defaultValue = id;
+					item.defaultValue = id;
 				})
 				.catch((error) => {
+					item.currentValue = item.defaultValue;
 					apis.errors.errorPublic(error.response, this);
+				});
+			},
+			chooseArea () {
+				let area = arguments[0];
+				this.detail.attributes = this.detail.attributes.map(function (item) {
+					if (item.type === 2) {
+						item.currentValue = area.district.code;
+						item.defaultValue = area.district.code;
+						item.defaultPath = area;
+					}
+					return item;
 				});
 			},
 			postOrder () {
 				let _this = this;
-				if (!_this.regions) {
-					MessageBox.alert('请选择服务地区！', '提示');
-					return false;
-				}
+				// if (!_this.regions) {
+				// 	MessageBox.alert('请选择服务地区！', '提示');
+				// 	return false;
+				// }
 				if (!_this.serviceNum) {
 					MessageBox.alert('购买数量不能为0！', '提示');
 					return false;
 				}
-				_this.detail.regions = _this.regions;
+				// _this.detail.regions = _this.regions;
 				_this.detail.serviceNum = _this.serviceNum;
+				_this.detail.finalPrice = parseInt(_this.detail.serviceNum) * parseInt(_this.detail.price);
 				_this.changeUserOrder(_this.detail);
 				_this.$router.push({name: 'OrderConfirm', params: {service_id: _this.serviceId}});
 			}

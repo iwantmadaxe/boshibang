@@ -1,25 +1,6 @@
 <template>
 	<div class="order-confirm">
-		<div class="order-topic cl-fx">
-			<img class="order-image" v-bind:src="detail.image">
-			<div class="detail-context cl-fx">
-				<p class="title one-line">{{detail.name}}</p>
-				<p class="text one-line" v-if="item.type === 1" v-for="item in detail.attributes">{{item.name}}：<span v-if="item2.id === item.defaultValue" v-for="item2 in item.option">{{item2.name}}</span></p>
-				<p class="text"  v-if="item.type === 2" v-for="item in detail.attributes">{{item.name}}：{{detail.regions}}</p>
-				<div class="price-con cl-fx">
-					<span class="price one-line">&#165;{{detail.price}}</span>
-					<span class="num one-line">x{{detail.serviceNum}}</span>
-				</div>
-			</div>
-		</div>
-		<div class="service-price cl-fx">
-			<span class="num one-line">共{{detail.serviceNum}}项服务</span>
-			<div class="total-price-con one-line">
-				<span class="total-price">总价：</span>
-				<span class="total-price-num">&#165;{{detail.price}}</span>
-				<span class="total-price">元</span>
-			</div>
-		</div>
+		<order-square :detail="detail"></order-square>
 		<div class="contact-con">
 			<p class="title">联系方式</p>
 			<div class="contact" @click="openContact">
@@ -65,6 +46,7 @@
 	import ChooseContact from './choose-contact.vue';
 	import BoxSection from '../../components/box-section/box-section.vue';
 	import { readLocal } from '../../utils/localstorage.js';
+	import OrderSquare from './order-square.vue';
 
 	export default {
 		name: 'boss-order-confirm',
@@ -79,12 +61,18 @@
 					phone: '',
 					area: {
 						province: {
+							id: '',
+							code: '',
 							name: ''
 						},
 						city: {
+							id: '',
+							code: '',
 							name: ''
 						},
 						district: {
+							id: '',
+							code: '',
 							name: ''
 						}
 					},
@@ -154,6 +142,7 @@
 							message: '购买成功！',
 							iconClass: 'mintui mintui-success'
 						});
+						_this.$router.push({name: 'ServiceDetail', params: {service_id: _this.serviceId}});
 					})
 					.catch((error) => {
 						apis.errors.errorPublic(error.response, this);
@@ -178,7 +167,8 @@
 			[ChooseContact.name]: ChooseContact,
 			[BoxSection.name]: BoxSection,
 			[MessageBox.name]: MessageBox,
-			[Toast.name]: Toast
+			[Toast.name]: Toast,
+			[OrderSquare.name]: OrderSquare
 		}
 	};
 </script>
@@ -205,82 +195,7 @@
 			}
 		}
 	}
-	.order-confirm .order-topic {
-		width: 100%;
-		padding: 0.1rem 5%;
-		.order-image {
-			width: 40%;
-			display: block;
-			float: left;
-		}
-	}
-	.order-confirm .detail-context {
-	    width: 60%;
-    	float: left;
-    	text-align: left;
-    	padding-left: 0.1rem;
-    	font-size: $normal-text;
-    	.title {
-			width: 100%;
-			font-size: $page-title;
-			color: $color-black;
-    	}
-    	.text {
-    		width: 100%;
-    		color: $color-context-title;
-    		line-height: 0.2rem;
-    	}
-    	.price-con {
-    		width: 100%;
-    		height: 0.24rem;
-    		line-height: 0.24rem;
-    		.price {
-    			width: 50%;
-    			float: left;
-    			color: $color-red;
-    			font-size: $big-text;
-    			display: block;
-    		}
-    		.num {
-    			width: 50%;
-    			float: left;
-    			color: $color-text;
-    			text-align: right;
-    			display: block;
-    		}
-    	}
-	}
-	.order-confirm .service-price {
-		height: 0.45rem;
-		line-height: 0.45rem;
-		background: $color-white;
-		@include border-top($border-gray);
-		@include border-bottom($border-gray);
-		width: 100%;
-		padding: 0 5%;
-		.num {
-			width: 50%;
-			float: left;
-			color: $color-text;
-			text-align: left;
-			display: block;
-			font-size: $normal-text;
-		}
-		.total-price-con {
-			width: 50%;
-			float: left;
-			display: block;
-			text-align: right;
-			.total-price {
-				color: $color-text;
-				font-size: $normal-text;
-			}
-			.total-price-num {
-				color: $color-red;
-				font-size: $big-text;
-			}
-		}
-	}
+	
 	.order-confirm .contact-con {
 		.title {
 			font-size: $square-title;

@@ -55,7 +55,24 @@
 			return {
 				token: '',
 				currentValue: '',
-				contactList: []
+				contactList: [
+					{
+						name: '',
+						phone: '',
+						area: {
+							province: {
+								name: ''
+							},
+							city: {
+								name: ''
+							},
+							district: {
+								name: ''
+							}
+						},
+						address: ''
+					}
+				]
 			};
 		},
 		props: {

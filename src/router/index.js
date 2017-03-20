@@ -10,7 +10,8 @@ import Search from '../views/search/index.vue'; // 搜索
 import OrderConfirm from '../views/order/order-confirm.vue'; // 确认订单页面
 import OrderCreate from '../views/order/order-create.vue'; // 创建订单页面
 import OrderList from '../views/order/order-list.vue'; // 订单列表页面
-import OrderDetail from '../views/order/order.vue'; // 订单详情页面
+import OrderDetail from '../views/order/detail.vue'; // 订单详情页面
+import OrderMine from '../views/order/order-mine.vue'; // 我的订单页面
 import UserContactCreate from '../views/user-contact/user-contact-create.vue'; // 创建联系人页面
 import Mine from '../views/mine/mine.vue'; // 我的页面
 import MineInfo from '../views/mine/mine-info.vue'; // 个人信息页面
@@ -94,6 +95,14 @@ export default new Router({
 			}
 		},
 		{
+			path: '/order/mine',
+			name: 'OrderMine',
+			component: OrderMine,
+			meta: {
+				title: '我的订单'
+			}
+		},
+		{
 			path: '/order/list',
 			name: 'OrderList',
 			component: OrderList,
@@ -164,7 +173,7 @@ export default new Router({
 		{
 			path: '*',
 			redirect: {
-				name: 'Register'
+				name: 'Index'
 			}
 		}
 	]

@@ -9,7 +9,10 @@
 			<mt-button size="large" type="primary" @click="save">确定并保存</mt-button>
 		</div>
 
-		<k-area-picker v-model="areaVisible" @choose-area="choose = arguments[0]"></k-area-picker>
+		<k-area-picker
+		v-model="areaVisible"
+		:area-choose="choose"
+		@choose-area="choose = arguments[0]"></k-area-picker>
 	</div>
 </template>
 <script>

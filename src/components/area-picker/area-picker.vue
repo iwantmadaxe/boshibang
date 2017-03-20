@@ -19,7 +19,7 @@
 						<span class="area-select-content" v-show="province">{{ city ? city.name : '待选择' }}</span>
 					</mt-tab-item>
 					<mt-tab-item id="3">
-						<span class="area-select-content" v-show="city">{{ district ? district.name : '待选择' }}</span>
+						<span class="area-select-content" v-show="province && city">{{ district ? district.name : '待选择' }}</span>
 					</mt-tab-item>
 				</mt-navbar>
 			</div>
@@ -29,25 +29,25 @@
 						<div
 						class="province-info"
 						v-for="area1Item in area1"
-						@click="getRegion(province.code, 2)">
+						@click="setRegion(province.code, 2)">
 							<input type="radio" class="area-radio" v-model="province" :value="area1Item">
 							<span class="area-name">{{area1Item.name}}</span>
 							<span class="area-choose"><i class="icon-choose mintui mintui-success"></i></span>
 						</div>
 					</mt-tab-container-item>
 
-					<mt-tab-container-item id="2" v-show="province">
+					<mt-tab-container-item id="2">
 						<div
 						class="province-info"
 						v-for="area2Item in area2"
-						@click="getRegion(city.code, 3)">
+						@click="setRegion(city.code, 3)">
 							<input type="radio" class="area-radio" v-model="city" :value="area2Item">
 							<span class="area-name">{{area2Item.name}}</span>
 							<span class="area-choose"><i class="icon-choose mintui mintui-success"></i></span>
 						</div>
 					</mt-tab-container-item>
 
-					<mt-tab-container-item id="3" v-show="city">
+					<mt-tab-container-item id="3">
 						<div
 						class="province-info"
 						v-for="area3Item in area3"
@@ -73,9 +73,9 @@
 		data () {
 			return {
 				selected: '1',
-				province: null,
-				city: null,
-				district: null,
+				province: this.areaChoose.province,
+				city: this.areaChoose.city,
+				district: this.areaChoose.district,
 				area1: [],
 				area2: [],
 				area3: []
@@ -84,6 +84,15 @@
 		props: {
 			value: {
 				default: false
+			},
+			areaChoose: {
+				default () {
+					return {
+						province: null,
+						city: null,
+						district: null
+					};
+				}
 			}
 		},
 		computed: {
@@ -97,6 +106,19 @@
 				}
 			}
 		},
+		watch: {
+			'areaChoose.province': function (val) {
+				this.getRegion(val.code, 2);
+				this.province = val;
+			},
+			'areaChoose.city': function (val) {
+				this.getRegion(val.code, 3);
+				this.city = val;
+			},
+			'areaChoose.district': function (val) {
+				this.district = val;
+			}
+		},
 		created () {
 			// 判断是否有缓存，有限读取缓存
 			if (readLocal('addressList') !== false) {
@@ -104,20 +126,38 @@
 			} else {
 				axios.get(apis.urls.address + '/' + 1)
 				.then((response) => {
-					this.area1 = response.data.data;
+					this.area1 = apis.pures.pureAddressList(response.data.data).items;
 					// 将每层地址写入缓存
 					saveLocal('addressList', this.area1);
 				});
 			}
+			if (this.district.id) {
+				this.getRegion(this.province.code, 2);
+				this.getRegion(this.city.code, 3);
+				this.selected = '3';
+			} else if (this.city.id) {
+				this.getRegion(this.province.code, 2);
+				this.getRegion(this.city.code, 3);
+				this.selected = '3';
+			} else if (this.province.id) {
+				this.getRegion(this.province.code, 2);
+				this.selected = '2';
+			}
 		},
 		methods: {
-			getRegion (code, level) {
+			setRegion (code, level) {
 				// 清空选项
-				this.district = null;
+				this.district = {id: null, code: null, name: ''};
 				this[`area${level}`] = [];
 				if (level === 2) {
-					this.city = null;
+					this.city = {id: null, code: null, name: ''};
 				}
+				// 读取地区
+				this.getRegion(code, level);
+				// 切换tab
+				this.selected = level.toString();
+			},
+			getRegion (code, level) {
 				// 判断是否有缓存，有限读取缓存
 				if (readLocal('addressList:' + code) !== false) {
 					this[`area${level}`] = readLocal('addressList:' + code);
@@ -129,8 +169,6 @@
 						saveLocal('addressList:' + code, this[`area${level}`]);
 					});
 				}
-				// 切换tab
-				this.selected = level.toString();
 			},
 			confirmChoose () {
 				let params = {
