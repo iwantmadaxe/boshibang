@@ -2,6 +2,13 @@
 	<div class="order-detail">
 		<div class="order-mine-list">
 			<order-square :detail="detail"></order-square>
+			<div class="reduce cl-fx" v-show="detail.reduce_price">
+				<div class="title">优惠券</div>
+				<div class="reduce-num">
+					<span class="num">{{detail.reduce_price}}</span>
+					<span class="unit">元</span>
+				</div>
+			</div>
 			<div class="contact-con cl-fx">
 				<img class="check" src="../../assets/images/main/check.png">
 				<div class="contact-detail cl-fx">
@@ -50,6 +57,7 @@
 				token: '',
 				orderNo: null,
 				detail: {
+					reduce_price: null,
 					attributes: [
 						{
 							option: []
@@ -89,14 +97,15 @@
 				// 获取订单号
 				this.orderNo = this.$route.params.order_no;
 				if (this.orderNo) {
-					// 获取订单详情
 					this.token = 'bearer ' + readLocal('user').token;
 					axios.defaults.headers.common['Authorization'] = this.token;
+					// 获取订单详情
 					axios.get(apis.urls.order + '/' + this.orderNo)
 					.then((response) => {
 						Indicator.close();
 						if (response.data) {
 							this.detail = apis.pures.pureOrder(response.data.data);
+							// this.detail.reduce_price = -100;
 							this.getContactDetail(response.data.data.contact_id);
 						}
 					})
@@ -208,6 +217,33 @@
 					background: $color-white;
 					color: $btn-text-gray;
 				}
+			}
+		}
+	}
+	.reduce {
+		width: 100%;
+		padding: 0 5%;
+		height: 0.45rem;
+		line-height: 0.45rem;
+		@include border-top($border-gray);
+		.title {
+			color: $color-text;
+			font-size: $page-title;
+			text-align: left;
+			width: 50%;
+			float: left;
+		}
+		.reduce-num {
+			color: $color-text;
+			font-size: $page-title;
+			text-align: right;
+			width: 50%;
+			float: left;
+			.num {
+
+			}
+			.unit {
+				font-size: $normal-text;
 			}
 		}
 	}

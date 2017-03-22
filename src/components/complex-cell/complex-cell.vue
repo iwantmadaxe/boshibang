@@ -1,6 +1,6 @@
 <template>
 	<div class="complex-cell">
-		<p class="complex-cell-title" v-text="title"></p>
+		<!-- <p class="complex-cell-title" v-text="title"></p> -->
 		<div class="complex-cell-content">
 			<slot></slot>
 		</div>
@@ -24,14 +24,14 @@
 	}
 	.complex-cell .complex-cell-title{
 		padding: 16px 0;
-		font-size: 1rem;
+		font-size: $page-title;
 		@include border-bottom($border-color);
 	}
 	.complex-cell .complex-cell-content{
 		word-break: break-word;
 		line-height: 1.5;
 		padding: 16px 0;
-		font-size: 0.9rem;
+		font-size: $normal-text;
 		color: darken($color-grey, 20%);
 	}
 </style>

@@ -61,7 +61,19 @@
 		data () {
 			return {
 				token: '',
-				orderList: [],
+				orderList: [
+					{
+						services: [
+							{
+								attribute: []
+							}
+						],
+						status: {
+							code: '',
+							value: ''
+						}
+					}
+				],
 				selected: 'order-notpay'
 			};
 		},

@@ -6,7 +6,7 @@
 				<img slot="icon" v-else src="../../assets/images/tab-bars/home.png">
 				创建订单
 			</mt-tab-item>
-			<mt-tab-item id="enroll" @click.native="goPath('enroll')">
+			<mt-tab-item id="enroll" @click.native="goPath('OrderMine')">
 				<img slot="icon" v-if="currentTabSelected === 'enroll'" src="../../assets/images/tab-bars/wait-confirm.png">
 				<img slot="icon" v-else src="../../assets/images/tab-bars/wait.png">
 				订单列表
@@ -53,8 +53,8 @@
 					return false;
 				}
 				// 跳转<>
-				if (place === 'enroll') {
-					// this.$router.push({name: ''});
+				if (place === 'OrderMine') {
+					this.$router.push({name: 'OrderMine'});
 					return false;
 				}
 

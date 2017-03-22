@@ -94,7 +94,11 @@
 		</div>
 		<div class="fixedbottom">
 			<div class="button-ask">
-				马上咨询
+				<img class="ask-img" src="../../assets/images/main/ask.png">
+				<span class="text">咨询</span>
+			</div>
+			<div class="button-join" @click="shoppingCartJoin">
+				加入购物车
 			</div>
 			<div class="button-buy" @click="postOrder">
 				立即购买
@@ -148,6 +152,8 @@
 			this.fetchData();
 			this.token = 'bearer ' + readLocal('user').token;
 			axios.defaults.headers.common['Authorization'] = this.token;
+			this.detail.reducePrice2 = '';  //  选择优惠券后的优惠
+			this.detail.finalPrice2 = '';  //  选择优惠券后的价格
 		},
 		methods: {
 			...mapActions([
@@ -219,6 +225,17 @@
 				_this.detail.finalPrice = parseInt(_this.detail.serviceNum) * parseInt(_this.detail.price);
 				_this.changeUserOrder(_this.detail);
 				_this.$router.push({name: 'OrderConfirm', params: {service_id: _this.serviceId}});
+			},
+			shoppingCartJoin () {
+				axios.post(apis.urls.shoppingCartJoin, {sku_id: this.detail.sku_id})
+				.then((response) => {
+					if (response.data) {
+						MessageBox.alert(response.data.data.message, '提示');
+					}
+				})
+				.catch((error) => {
+					apis.errors.errorPublic(error.response, this);
+				});
 			}
 		},
 		components: {
@@ -351,6 +368,7 @@
 	}
 	.service-detail .service-detail-number .k-number-panel {
 		margin-left: 0.08rem;
+		right: 5%;
 	}
 	.service-detail .fixedbottom {
 		display: block;
@@ -365,13 +383,39 @@
     	background: #fff;
 	}
 	.service-detail .fixedbottom .button-ask {
+		background: $bg-gray;
+		color: $color-white;
+		text-align:center;
+		font-size: $page-title;
+		height: 0.45rem;
+		line-height: 0.45rem;
+		width: 16%;
+		float: left;
+		.ask-img {
+			width: 0.2rem;
+			height: 0.2rem;
+			display: block;
+			margin: 0.05rem auto 0;
+		}
+		.text {
+			display: block;
+			margin: 0 auto;
+			width: 100%;
+			text-align: center;
+			color: $color-text;
+			font-size: $normal-text;
+			height: 0.2rem;
+			line-height: 0.2rem;
+		}
+	}
+	.service-detail .fixedbottom .button-join {
 		background: $color-yellow;
 		color: $color-white;
 		text-align:center;
 		font-size: $big-text;
 		height: 0.45rem;
 		line-height: 0.45rem;
-		width: 50%;
+		width: 42%;
 		float: left;
 	}
 	.service-detail .fixedbottom .button-buy {
@@ -381,7 +425,7 @@
 		font-size: $big-text;
 		height: 0.45rem;
 		line-height: 0.45rem;
-		width: 50%;
+		width: 42%;
 		float: left;
 	}
 	.service-detail .mint-navbar .mint-tab-item {

@@ -1,17 +1,17 @@
 function pureOrder (order) {
 	let itemTpl = {};
-	itemTpl.image = order.service_image;
-	itemTpl.name = order.service_name;
-	itemTpl.price = order.unit_price;
+	itemTpl.image = order.services[0].service_image;
+	itemTpl.name = order.services[0].service_name;
+	itemTpl.price = order.services[0].service_price;
 	itemTpl.finalPrice = order.final_price;
-	itemTpl.serviceNum = order.amount;
+	itemTpl.serviceNum = order.services[0].amount;
 	itemTpl.status = order.status;
 	itemTpl.id = order.id;
 	itemTpl.status.code = null;  //  测试用
 	// itemTpl.other = true;  //  订单详情里的其他服务开启
 	itemTpl.contactId = order.contact_id;
 	itemTpl.orderTime = order.order_time;
-	itemTpl.attributes = order.attribute.map(function (item2) {
+	itemTpl.attributes = order.services[0].attribute.map(function (item2) {
 		if (item2.key !== '服务地区') {
 			item2.type = 1;
 			item2.name = item2.key;

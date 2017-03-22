@@ -12,7 +12,14 @@ const apiRoutes = {
 	contact: 'contact',  //  联系人（增改删）
 	contacts: 'contacts',  //  联系人列表
 	contactDefault: 'contact/default',  //  默认联系人
-	search: 'service/search'  //  搜索（即服务搜索）
+	search: 'service/search',  //  搜索（即服务搜索）
+	comment: 'comment',  //  评论
+	comments: 'comments',  //  评论列表
+	coupon: 'coupon',  //  优惠券
+	couponSuit: 'coupon/suitable',  //  适合的优惠券列表
+	shoppingCart: 'shoppingCart',  //   从购物车删除
+	shoppingCartJoin: 'shoppingCart',  //  购物车
+	shoppingCartList: 'shoppingCart/list'  //  购物车列表
 };
 
 export default apiRoutes;

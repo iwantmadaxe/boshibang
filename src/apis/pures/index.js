@@ -3,11 +3,13 @@ import pureLogin from './login.js';
 import pureService from './service.js';  //  服务详情
 import pureOrders from './orders.js';  //  订单列表
 import pureOrder from './order.js';  //  订单详情
+import pureShoppingCartList from './shoppingCartList.js';  //  购物车列表
 
 export {
 	pureAddressList,
 	pureLogin,
 	pureService,
 	pureOrders,
-	pureOrder
+	pureOrder,
+	pureShoppingCartList
 };

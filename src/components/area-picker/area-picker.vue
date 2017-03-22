@@ -202,7 +202,7 @@
 	}
 	.k-area-picker .area-heading-detail{
 		position: relative;
-		padding-top: 15px;
+		padding: 15px 10px 0;
 		color: #666;
 		font-size: 15px;
 	}

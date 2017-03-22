@@ -25,7 +25,8 @@
 			<span class="num one-line">共{{detail.serviceNum}}项服务</span>
 			<div class="total-price-con one-line">
 				<span class="total-price">总价：</span>
-				<span class="total-price-num">&#165;{{detail.finalPrice}}</span>
+				<span v-if="totalPrice === true" class="price-red total-price-num">&#165;{{detail.finalPrice}}</span>
+				<span v-else class="price-black total-price-num">&#165;{{detail.finalPrice}}</span>
 				<span class="total-price">元</span>
 			</div>
 		</div>
@@ -34,13 +35,13 @@
 				<mt-button size="small">立即支付</mt-button>
 			</div>
 			<div class="operate-btn-normal cl-fx" v-if="detail.status.code === 2">
-				<mt-button size="small">评论</mt-button>
+				<mt-button size="small" @click="goComment(detail.id)">评论</mt-button>
 			</div>
 			<div class="operate-btn-normal cl-fx" v-if="detail.status.code === 2">
 				<mt-button size="small" @click="goOrderDetail(detail.id)">查看凭证</mt-button>
 			</div>
 			<div class="operate-btn-normal cl-fx" v-if="detail.status.code === 3">
-				<mt-button size="small">评论</mt-button>
+				<mt-button size="small" @click="goComment(detail.id)">评论</mt-button>
 			</div>
 			<div class="operate-btn-normal cl-fx" v-if="detail.status.code === 3">
 				<mt-button size="small" @click="goOrderDetail(detail.id)">查看凭证</mt-button>
@@ -71,11 +72,18 @@
 						]
 					};
 				}
+			},
+			totalPrice: {
+				default: true,
+				type: Boolean
 			}
 		},
 		methods: {
 			goOrderDetail (id) {
 				this.$router.push({name: 'OrderDetail', params: {order_no: id}});
+			},
+			goComment (id) {
+				this.$router.push({name: 'Comment', params: {order_no: id}});
 			}
 		},
 		components: {
@@ -117,6 +125,7 @@
 			padding: 0.15rem 5% 0.1rem;
 			.order-image {
 				width: 40%;
+				min-height: 0.9rem;
 				display: block;
 				float: left;
 			}
@@ -186,8 +195,13 @@
 				font-size: $normal-text;
 			}
 			.total-price-num {
-				color: $color-red;
 				font-size: $big-text;
+			}
+			.price-red {
+				color: $color-red;
+			}
+			.price-black {
+				color: $color-text;
 			}
 		}
 	}

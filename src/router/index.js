@@ -12,6 +12,9 @@ import OrderCreate from '../views/order/order-create.vue'; // 创建订单页面
 import OrderList from '../views/order/order-list.vue'; // 订单列表页面
 import OrderDetail from '../views/order/detail.vue'; // 订单详情页面
 import OrderMine from '../views/order/order-mine.vue'; // 我的订单页面
+import Comment from '../views/comment/comment.vue'; // 评价
+import ShoppingCart from '../views/shopping-cart/index.vue'; // 购物车
+import CouponList from '../views/coupon/list.vue'; // 优惠券列表
 import UserContactCreate from '../views/user-contact/user-contact-create.vue'; // 创建联系人页面
 import Mine from '../views/mine/mine.vue'; // 我的页面
 import MineInfo from '../views/mine/mine-info.vue'; // 个人信息页面
@@ -119,6 +122,33 @@ export default new Router({
 			},
 			meta: {
 				title: '订单详情'
+			}
+		},
+		{
+			path: '/comment/:order_no',
+			name: 'Comment',
+			component: Comment,
+			params: {
+				order_no: null
+			},
+			meta: {
+				title: '评价'
+			}
+		},
+		{
+			path: '/shopping-cart',
+			name: 'ShoppingCart',
+			component: ShoppingCart,
+			meta: {
+				title: '购物车'
+			}
+		},
+		{
+			path: '/coupon/list',
+			name: 'CouponList',
+			component: CouponList,
+			meta: {
+				title: '优惠券列表'
 			}
 		},
 		{
