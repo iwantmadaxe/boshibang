@@ -1,17 +1,17 @@
 function pureOrders (orders) {
 	orders = orders.map(function (item) {
 		let itemTpl = {};
-		itemTpl.image = item.services[0].service_image;
-		itemTpl.name = item.services[0].service_name;
-		itemTpl.price = item.services[0].service_price;
+		itemTpl.image = item.services.service_image;
+		itemTpl.name = item.services.service_name;
+		itemTpl.price = item.services.service_price;
 		itemTpl.finalPrice = item.final_price;
-		itemTpl.serviceNum = item.services[0].amount;
+		itemTpl.serviceNum = item.services.amount;
 		itemTpl.status = item.status;
 		itemTpl.id = item.id;
 		itemTpl.status.code = 2;  //  测试用
 		itemTpl.contactId = item.contact_id;
 		itemTpl.orderTime = item.order_time;
-		itemTpl.attributes = item.services[0].attribute.map(function (item2) {
+		itemTpl.attributes = item.services.attribute.map(function (item2) {
 			if (item2.key !== '服务地区') {
 				item2.type = 1;
 				item2.name = item2.key;

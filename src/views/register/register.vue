@@ -175,4 +175,10 @@
 		width: 30%;
 		border-radius: 50%;
 	}
+	.register .btn-register .mint-button {
+		background: $color-red;
+	}
+	.register .content .mint-button {
+		background: $color-red;
+	}
 </style>

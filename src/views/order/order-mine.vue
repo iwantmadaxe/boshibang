@@ -47,6 +47,8 @@
 				</mt-tab-container-item>
 			</mt-tab-container>
 		</div>
+		<!-- 底部栏 -->
+		<boss-bottom-pannel tab-selected="enroll"></boss-bottom-pannel>
 	</div>
 </template>
 <script>
@@ -55,6 +57,7 @@
 	import OrderSquare from './order-square.vue';
 	import { readLocal } from '../../utils/localstorage.js';
 	import { Navbar, TabItem, TabContainer, TabContainerItem, Indicator } from 'mint-ui';
+	import BottomPannel from '../share-template/bottom-pannel.vue';
 
 	export default {
 		name: 'order-mine',
@@ -105,7 +108,8 @@
 			[TabItem.name]: TabItem,
 			[TabContainer.name]: TabContainer,
 			[TabContainerItem.name]: TabContainerItem,
-			[Indicator.name]: Indicator
+			[Indicator.name]: Indicator,
+			[BottomPannel.name]: BottomPannel
 		}
 	};
 </script>

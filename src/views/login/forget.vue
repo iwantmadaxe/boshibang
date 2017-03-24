@@ -156,4 +156,12 @@
 	};
 </script>
 <style lang="scss">
+	@import '../../assets/sass/partials/_var.scss';
+
+	.forget .btn-register .mint-button {
+		background: $color-red;
+	}
+	.forget .content .mint-button {
+		background: $color-red;
+	}
 </style>

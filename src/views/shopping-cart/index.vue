@@ -14,12 +14,12 @@
 				<span class="choose-all">全选</span>
 				<span class="choose-num">共{{chooseNum}}项服务</span>
 			</div>
-			<div class="button-order-confirm" @click="">
+			<div class="button-order-confirm" @click="orderPost">
 				立即结算
 			</div>
 		</div>
 		<!-- 底部栏 -->
-		<boss-bottom-pannel tab-selected="mine"></boss-bottom-pannel>
+		<boss-bottom-pannel tab-selected="shoppingcart"></boss-bottom-pannel>
 	</div>
 </template>
 <script>
@@ -29,6 +29,7 @@
 	import { readLocal } from '../../utils/localstorage.js';
 	import { Navbar, TabItem, TabContainer, TabContainerItem, Indicator } from 'mint-ui';
 	import BottomPannel from '../share-template/bottom-pannel.vue';
+	import { mapActions } from 'vuex';
 
 	export default {
 		name: 'shopping-cart',
@@ -69,6 +70,9 @@
 			this.fetchData();
 		},
 		methods: {
+			...mapActions([
+				'changeUserOrder'
+			]),
 			fetchData () {
 				Indicator.open('加载中...');
 				axios.get(apis.urls.shoppingCartList)
@@ -110,6 +114,9 @@
 					item.choose = false;
 					return item;
 				});
+			},
+			orderPost () {
+				this.changeUserOrder(this.shoppingCartList);
 			}
 		},
 		components: {

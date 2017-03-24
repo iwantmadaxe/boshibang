@@ -5,17 +5,15 @@
 		<div class="user-top-nav">
 			<div class="user-info-con">
 				<div class="rad user-head">
-					<img src="../../assets/images/example/user-head.png">
+					<img v-bind:src="mine.avatar?mine.avatar: defaultAvatar">
 				</div>
 				<div class="user-info">
 					<div class="user-info-row">
-						<span class="username">陆金所小鹿</span>
-						<div class="level">v1
-						</div>
+						<span class="username">{{mine.name}}</span>
+						<span class="level">v{{mine.level}}</span>
 					</div>
 					<div class="user-info-row">
-						<img class="star" src="../../assets/images/index/star.png">
-						<img class="star" src="../../assets/images/index/star.png">
+						<img v-for="n in mine.star" class="star" src="../../assets/images/index/star.png">
 					</div>
 				</div>
 			</div>
@@ -27,36 +25,51 @@
 </template>
 
 <script>
-	import { getScrollTop } from '../../utils/fixtools.js';
+	import { Indicator } from 'mint-ui';
+	import { saveLocal, readLocal } from '../../utils/localstorage.js';
+	import apis from '../../apis';
+	import axios from 'axios';
+
+	const DefaultAvatar = require('../../assets/images/my/my-default-head.png');
+
 	export default {
 		name: 'search-bar',
 		data () {
-			return {};
-		},
-		ready () {
-			// searchbar的渐变色
-			let scrollTop = 0;
-			let fullHeight = 300;
-			let fullOpacity = 0.85;
-			let opacity = 0;
-			document.onscroll = function () {
-				scrollTop = getScrollTop();
-				opacity = scrollTop / fullHeight;
-				if (opacity <= fullOpacity) {
-					if (document.querySelector('.search-box-cover')) {
-						document.querySelector('.search-box-cover').style.opacity = opacity;
-					}
-				} else {
-					if (document.querySelector('.search-box-cover')) {
-						document.querySelector('.search-box-cover').style.opacity = fullOpacity;
-					}
-				}
+			return {
+				mine: {},
+				defaultAvatar: DefaultAvatar
 			};
+		},
+		created () {
+			Indicator.open('加载中...');
+			this.token = 'bearer ' + readLocal('user').token;
+			axios.defaults.headers.common['Authorization'] = this.token;
+			let mineCache = readLocal('mine');
+			if (mineCache) {
+				this.$nextTick(() => {
+					Indicator.close();
+				});
+				this.mine = mineCache;
+			} else {
+				axios.get(apis.urls.mine)
+				.then((response) => {
+					Indicator.close();
+					this.mine = response.data.data;
+					saveLocal('mine', this.mine);
+				})
+				.catch((error) => {
+					Indicator.close();
+					apis.errors.errorPublic(error.response, this);
+				});
+			}
 		},
 		methods: {
 			goSearchPage () {
 				this.$router.push({name: 'Search'});
 			}
+		},
+		components: {
+			[Indicator.name]: Indicator
 		}
 	};
 </script>

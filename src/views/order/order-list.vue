@@ -44,7 +44,7 @@
 	import BottomPannel from '../share-template/bottom-pannel.vue';
 
 	export default {
-		name: 'odin-order-list',
+		name: 'boss-order-list',
 		data () {
 			return {
 				list: [],

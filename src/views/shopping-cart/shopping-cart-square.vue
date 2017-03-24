@@ -84,7 +84,7 @@
 	import { Button, Indicator, Popup, CellSwipe, MessageBox } from 'mint-ui';
 	import NumberChoose from '../../components/number/number.vue';
 	import ChooseCoupon from '../order/choose-coupon.vue';
-	import { readLocal } from '../../utils/localstorage.js';
+	import { readLocal, saveLocal } from '../../utils/localstorage.js';
 
 	export default {
 		name: 'shopping-cart-square',
@@ -121,6 +121,20 @@
 		created () {
 			this.token = 'bearer ' + readLocal('user').token;
 			axios.defaults.headers.common['Authorization'] = this.token;
+			// 获取适合的优惠券列表
+			let couponListCache = readLocal('coupon-list');
+			if (couponListCache) {
+				this.couponList = couponListCache;
+			} else {
+				axios.get(apis.urls.couponSuit, {params: {sku_id: this.detail.sku_id}})
+				.then((response) => {
+					this.couponList = response.data.data;
+					saveLocal('coupon-list', response.data.data);
+				})
+				.catch((error) => {
+					apis.errors.errorPublic(error.response, this);
+				});
+			}
 		},
 		methods: {
 			goOrderDetail (id) {

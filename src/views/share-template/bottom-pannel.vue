@@ -4,12 +4,17 @@
 			<mt-tab-item id="home" @click.native="goPath('home')">
 				<img slot="icon" v-if="currentTabSelected === 'home'" src="../../assets/images/tab-bars/home-confirm.png">
 				<img slot="icon" v-else src="../../assets/images/tab-bars/home.png">
-				创建订单
+				企业服务
 			</mt-tab-item>
 			<mt-tab-item id="enroll" @click.native="goPath('OrderMine')">
 				<img slot="icon" v-if="currentTabSelected === 'enroll'" src="../../assets/images/tab-bars/wait-confirm.png">
 				<img slot="icon" v-else src="../../assets/images/tab-bars/wait.png">
 				订单列表
+			</mt-tab-item>
+			<mt-tab-item id="shoppingcart" @click.native="goPath('ShoppingCart')">
+				<img slot="icon" v-if="currentTabSelected === 'shoppingcart'" src="../../assets/images/tab-bars/wait-confirm.png">
+				<img slot="icon" v-else src="../../assets/images/tab-bars/wait.png">
+				购物车列表
 			</mt-tab-item>
 			<mt-tab-item id="mine" @click.native="goPath('mine')">
 				<img slot="icon" v-if="currentTabSelected === 'mine'" src="../../assets/images/tab-bars/my-confirm.png">
@@ -49,7 +54,7 @@
 			goPath (place) {
 				// 跳转<>
 				if (place === 'home') {
-					// this.$router.push({name: ''});
+					this.$router.push({name: 'Index'});
 					return false;
 				}
 				// 跳转<>
@@ -57,10 +62,14 @@
 					this.$router.push({name: 'OrderMine'});
 					return false;
 				}
-
+				// 跳转<>
+				if (place === 'ShoppingCart') {
+					this.$router.push({name: 'ShoppingCart'});
+					return false;
+				}
 				// 跳转<>
 				if (place === 'mine') {
-					// this.$router.push({name: ''});
+					this.$router.push({name: 'Mine'});
 					return false;
 				}
 

@@ -17,7 +17,9 @@ import ShoppingCart from '../views/shopping-cart/index.vue'; // 购物车
 import CouponList from '../views/coupon/list.vue'; // 优惠券列表
 import UserContactCreate from '../views/user-contact/user-contact-create.vue'; // 创建联系人页面
 import Mine from '../views/mine/mine.vue'; // 我的页面
+import NoticeList from '../views/notice/index.vue'; // 消息通知列表页
 import MineInfo from '../views/mine/mine-info.vue'; // 个人信息页面
+import MineInfoEdit from '../views/mine/mine-info-edit.vue'; // 个人信息修改页面
 import MineAddress from '../views/user-contact/address-manage.vue'; // 地址管理页面
 // import UserContactEdit from '../views/user-contact/user-contact-edit.vue'; // 编辑联系人页面
 
@@ -160,11 +162,27 @@ export default new Router({
 			}
 		},
 		{
+			path: '/notice/list',
+			name: 'NoticeList',
+			component: NoticeList,
+			meta: {
+				title: '消息通知列表页'
+			}
+		},
+		{
 			path: '/mine/info',
 			name: 'MineInfo',
 			component: MineInfo,
 			meta: {
 				title: '个人信息'
+			}
+		},
+		{
+			path: '/mine/info-edit',
+			name: 'MineInfoEdit',
+			component: MineInfoEdit,
+			meta: {
+				title: '个人信息修改'
 			}
 		},
 		{

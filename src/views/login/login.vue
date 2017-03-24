@@ -168,4 +168,7 @@
 		width: 90%;
 		margin:  0 auto;
 	}
+	.login .btn-register .mint-button {
+		background: $color-red;
+	}
 </style>

@@ -3,13 +3,10 @@
 		<!-- 头部搜索 -->
 		<div class="fixedtop">
 			<search-bar search-place="" :disabled="true">
-<!-- 				<img src="../../assets/images/logo/logo.png" slot="search-icon-logo" width="44">
-				<img src="../../assets/images/index/mag.png" slot="search-form-icon" width="20">
-				<a v-link="{name: 'Login'}" slot="search-btn" v-if="!role">
+<!-- 				<img src="../../assets/images/logo/logo.png" slot="search-icon-logo">
+				<img src="../../assets/images/index/mag.png" slot="search-form-icon">
+				<a v-link="{name: 'Login'}" slot="search-btn">
 					<span class="search-login-icon">登录</span>
-				</a>
-				<a v-link="{name: role}" slot="search-btn" v-else>
-					<img src="../../assets/images/tab-bars/my.png" class="mine-icon">
 				</a> -->
 			</search-bar>	
 		</div>
@@ -76,14 +73,14 @@
 					</div>
 				</div>
 			</div>
-			<div class="package-select cl-fx service-con-border">
+<!-- 			<div class="package-select cl-fx service-con-border">
 				<div class="package-topic cl-fx">
 					<img class="topic-left-icon" src="../../assets/images/index/package-left.png">
 					<span class="topic">精选套餐</span>
 					<img class="topic-right-icon" src="../../assets/images/index/package-right.png">
 				</div>
 				<img class="package-index" src="../../assets/images/index/package-index.png">
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -229,17 +226,13 @@
 	    float: left;
 	}
 	.index .user-info-row .level {
-	    background-image: url('../../assets/images/index/level.png');
-	    display: block;
-	    float: left;
-	    background-size: 100% 100%;
-	    width: 0.26rem;
-	    height: 0.16rem;
-	    line-height: 0.16rem;
-	    color: #fff;
-	    font-size: $normal-text;
-	    background-repeat: no-repeat;
-	    background-position: 0 0;
+	    padding: 0.01rem 0.04rem;
+		line-height: 1;
+		border-radius: 2px;
+		text-align: center;
+		color: $color-white;
+		font-size: $normal-text;
+		background-color: $color-red;
 	    margin-left: 0.1rem;
 	    margin-top: 0.01rem;
 	}
