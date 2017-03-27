@@ -9,12 +9,15 @@
 			<div class="detail-context cl-fx">
 				<p class="title one-line">{{detail.name}}</p>
 				<p class="text one-line" v-if="item.type === 1" v-for="item in detail.attributes">{{item.name}}：<span v-if="item2.id === item.defaultValue" v-for="item2 in item.option">{{item2.name}}</span></p>
-				<p class="text"  v-if="item.type === 2" v-for="item in detail.attributes">
-					{{item.name}}：
-					{{item.defaultPath.province.name}}-
-					{{item.defaultPath.city.name}}-
-					{{item.defaultPath.district.name}}
-				</p>
+				<div v-if="item.type === 2" v-for="item in detail.attributes">
+					<p v-if="item.defaultPath.province.name" class="text">
+						{{item.name}}：
+						{{item.defaultPath.province.name}}-
+						{{item.defaultPath.city.name}}-
+						{{item.defaultPath.district.name}}
+					</p>
+					<p class="text" v-else>{{item.name}}：暂无</p>
+				</div>
 				<div class="price-con cl-fx">
 					<span class="price one-line">&#165;{{detail.price}}</span>
 					<span class="num one-line">x{{detail.serviceNum}}</span>
@@ -65,6 +68,10 @@
 			detail: {
 				default: function () {
 					return {
+						status: {
+							code: null,
+							value: null
+						},
 						attributes: [
 							{
 								option: []

@@ -6,8 +6,32 @@ function pureShoppingCartList (orders) {
 		itemTpl.price = item.price;
 		itemTpl.serviceNum = item.amount;
 		itemTpl.id = item.id;
+		itemTpl.sku_id = item.sku_id;
+		// itemTpl.sku_id = 1;
 		itemTpl.choose = false;
-		itemTpl.attributes = item.attribute;
+		itemTpl.finalPrice = '1000';
+		itemTpl.finalPrice2 = '';
+		itemTpl.reducePrice2 = '';
+		itemTpl.status = {
+			code: '',
+			value: ''
+		};
+		itemTpl.attributes = item.attribute.map(function (item2) {
+			if (item2.type === 2) {
+				item2.defaultPath = {
+					province: {
+						name: '北京'
+					},
+					city: {
+						name: '北京市'
+					},
+					district: {
+						name: '北京市'
+					}
+				};
+			}
+			return item2;
+		});
 		return itemTpl;
 	});
 	return orders;

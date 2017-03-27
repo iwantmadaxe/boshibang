@@ -20,7 +20,7 @@ function pureService (service) {
 		}
 		return item;
 	});
-	return service;
+	return [service];
 }
 
 export default pureService;

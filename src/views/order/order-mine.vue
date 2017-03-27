@@ -66,14 +66,11 @@
 				token: '',
 				orderList: [
 					{
-						services: [
-							{
-								attribute: []
-							}
+						attributes: [
 						],
 						status: {
-							code: '',
-							value: ''
+							code: null,
+							value: null
 						}
 					}
 				],
@@ -141,6 +138,6 @@
 		margin-top: 0.12rem;
 	}
 	.order-mine .order-mine-list {
-		padding-bottom: 0.3rem;
+		padding-bottom: 0.65rem;
 	}
 </style>

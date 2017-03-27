@@ -27,7 +27,7 @@
 	import axios from 'axios';
 	import ShoppingCartSquare from './shopping-cart-square.vue';
 	import { readLocal } from '../../utils/localstorage.js';
-	import { Navbar, TabItem, TabContainer, TabContainerItem, Indicator } from 'mint-ui';
+	import { Navbar, TabItem, TabContainer, TabContainerItem, Indicator, MessageBox } from 'mint-ui';
 	import BottomPannel from '../share-template/bottom-pannel.vue';
 	import { mapActions } from 'vuex';
 
@@ -116,7 +116,19 @@
 				});
 			},
 			orderPost () {
-				this.changeUserOrder(this.shoppingCartList);
+				let _this = this;
+				let serviceIdArray = [];
+				_this.shoppingCartList.map(function (item) {
+					if (item.serviceNum === 0) {
+						MessageBox.alert('购买数量不能为0！', '提示');
+						return false;
+					}
+					if (item.choose) {
+						serviceIdArray.push(item.id);
+					}
+				});
+				_this.changeUserOrder(_this.shoppingCartList);
+				_this.$router.push({name: 'OrderConfirm', params: {service_id: serviceIdArray.join('-')}});
 			}
 		},
 		components: {
@@ -126,7 +138,8 @@
 			[TabContainer.name]: TabContainer,
 			[TabContainerItem.name]: TabContainerItem,
 			[Indicator.name]: Indicator,
-			[BottomPannel.name]: BottomPannel
+			[BottomPannel.name]: BottomPannel,
+			[MessageBox.name]: MessageBox
 		}
 	};
 </script>
@@ -135,7 +148,6 @@
 	@import '../../assets/sass/partials/_border.scss';
 
 	.shopping-cart .shopping-cart-list-square {
-		margin-top: 0.12rem;
 		width: 100%;
 	}
 	.shopping-cart .fixedbottom {
@@ -151,6 +163,7 @@
     	background: #fff;
 	}
 	.shopping-cart {
+		padding-bottom: 1.2rem;
 		.button-all {
 		    width: 60%;
 		    height: 100%;

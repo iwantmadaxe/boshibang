@@ -112,6 +112,8 @@
 						name: '',
 						price: '',
 						serviceNum: '',
+						// finalPrice2: '',
+						// reducePrice2: '',
 						attributes: [
 						]
 					};

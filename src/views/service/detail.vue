@@ -1,19 +1,19 @@
 <template>
 	<div class="service-detail">
-		<img class="detail-img" v-bind:src="detail.image">
+		<img class="detail-img" v-bind:src="detail[0].image">
 		<div class="service-detail-context cl-fx">
 			<div class="service-mainbody">
 				<div class="topic cl-fx">
-					<p class="one-line title">{{detail.name}}</p>
+					<p class="one-line title">{{detail[0].name}}</p>
 					<p class="one-line price">
 						<span class="price-title">服务价格：</span>
-						<span class="price-num">&#165;{{detail.price}}</span>
+						<span class="price-num">&#165;{{detail[0].price}}</span>
 						<span class="price-unit">元/件</span>
 					</p>
-					<p class="two-line exp">{{detail.introduction}}</p>
+					<p class="two-line exp">{{detail[0].introduction}}</p>
 				</div>
 				<div class="operate cl-fx">
-					<div v-if="item.type === 2" class="operate-row cl-fx" v-for="item in detail.attributes">
+					<div v-if="item.type === 2" class="operate-row cl-fx" v-for="item in detail[0].attributes">
 						<span class="title">{{item.name}}：</span>
 						<div
 							class="choose-con cl-fx"
@@ -32,7 +32,7 @@
 						@choose-area="chooseArea"
 						></k-area-picker>
 					</div>
-					<div v-if="item.type === 1" class="operate-row cl-fx" v-for="(item, index) in detail.attributes">
+					<div v-if="item.type === 1" class="operate-row cl-fx" v-for="(item, index) in detail[0].attributes">
 						<span class="title">{{item.name}}：</span>
 						<div class="choose-con cl-fx">
 							<div
@@ -71,7 +71,7 @@
 				<mt-tab-container v-model="selected" swipeable style="margin-top: 0.12rem;">
 					<mt-tab-container-item id="service-detail">
 						<div class="item-detail nav-item-context">
-							<img v-bind:src="detail.detail">
+							<img v-bind:src="detail[0].detail">
 						</div>		
 					</mt-tab-container-item>
 					<mt-tab-container-item id="shop-info">
@@ -124,19 +124,21 @@
 				selected: 'service-detail',
 				serviceId: '',
 				serviceNum: 0,  //  购买数量
-				detail: {
-					attributes: [
-						{
-							option: []
-						}
-					]
-				},
+				detail: [
+					{
+						attributes: [
+							{
+								option: []
+							}
+						]
+					}
+				],
 				areaVisible: false
 			};
 		},
 		computed: {
 			combineOption () {
-				return this.detail.attributes
+				return this.detail[0].attributes
 				.map(function (item) {
 					return item.currentValue;
 				});
@@ -152,8 +154,8 @@
 			this.fetchData();
 			this.token = 'bearer ' + readLocal('user').token;
 			axios.defaults.headers.common['Authorization'] = this.token;
-			this.detail.reducePrice2 = '';  //  选择优惠券后的优惠
-			this.detail.finalPrice2 = '';  //  选择优惠券后的价格
+			this.detail[0].reducePrice2 = '';  //  选择优惠券后的优惠
+			this.detail[0].finalPrice2 = '';  //  选择优惠券后的价格
 		},
 		methods: {
 			...mapActions([
@@ -168,7 +170,7 @@
 					axios.get(apis.urls.service + '/' + this.serviceId)
 					.then((response) => {
 						this.detail = apis.pures.pureService(response.data.data);
-						this.detail.status = {
+						this.detail[0].status = {
 							code: '',
 							value: ''
 						};
@@ -190,8 +192,8 @@
 				// 根据选项查询sku接口
 				axios.get(apis.urls.service + '/' + this.serviceId + '/sku', {params: {selected_ids: this.combineOption}})
 				.then((response) => {
-					this.detail.sku_id = response.data.data.id;
-					this.detail.price = response.data.data.price;
+					this.detail[0].sku_id = response.data.data.id;
+					this.detail[0].price = response.data.data.price;
 					item.defaultValue = id;
 				})
 				.catch((error) => {
@@ -201,7 +203,7 @@
 			},
 			chooseArea () {
 				let area = arguments[0];
-				this.detail.attributes = this.detail.attributes.map(function (item) {
+				this.detail[0].attributes = this.detail[0].attributes.map(function (item) {
 					if (item.type === 2) {
 						item.currentValue = area.district.code;
 						item.defaultValue = area.district.code;
@@ -220,14 +222,14 @@
 					MessageBox.alert('购买数量不能为0！', '提示');
 					return false;
 				}
-				// _this.detail.regions = _this.regions;
-				_this.detail.serviceNum = _this.serviceNum;
-				_this.detail.finalPrice = parseInt(_this.detail.serviceNum) * parseInt(_this.detail.price);
+				// _this.detail[0].regions = _this.regions;
+				_this.detail[0].serviceNum = _this.serviceNum;
+				_this.detail[0].finalPrice = parseInt(_this.detail[0].serviceNum) * parseInt(_this.detail[0].price);
 				_this.changeUserOrder(_this.detail);
 				_this.$router.push({name: 'OrderConfirm', params: {service_id: _this.serviceId}});
 			},
 			shoppingCartJoin () {
-				axios.post(apis.urls.shoppingCartJoin, {sku_id: this.detail.sku_id})
+				axios.post(apis.urls.shoppingCartJoin, {sku_id: this.detail[0].sku_id})
 				.then((response) => {
 					if (response.data) {
 						MessageBox.alert(response.data.data.message, '提示');
